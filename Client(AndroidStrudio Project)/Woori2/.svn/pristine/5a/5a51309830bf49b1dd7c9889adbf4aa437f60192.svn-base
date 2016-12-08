@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_chatting">채팅</string>
+    <string name="action_searching">검색</string>
+    <string name="action_teamhome">팀홈으로</string>
+    <string name="action_calendar">일정</string>
+    <string name="action_inbox">인박스</string>
+    <string name="action_login">로그인</string>
+    <string name="action_today">오늘</string>
+    <string name="text_schedule_title">제목</string>
+    <string name="text_start_date">시작</string>
+    <string name="text_end_date">종료</string>
+    <string name="text_schedule_time">시작시간</string>
+    <string name="check_allday">하루종일</string>
+    <string name="text_schedule_location">장소</string>
+    <string name="text_schedule_content">내용</string>
+    <string name="action_finish_add_schedule">추가</string>
+    <string name="action_select_date">선택</string>
+    <string name="action_finish_time_select">선택</string>
+    <string name="nav_item_myinfo">회원정보수정</string>
+    <string name="action_correct_team_name">수정</string>
+    <string name="action_correct_team_descr">수정</string>
+    <string name="action_invite_team_member">초대하기</string>
+    <string name="action_withdraw_team">탈퇴하기</string>
+    <string name="text_member_list_title">멤버</string>
+    <string name="action_edit_member">편집</string>
+    <string name="navi_item_teaminfo">팀 정보</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="enterFileName">Enter file name:</string>
+    <string name="saveButtonText">Save</string>
+    <string name="cancelButtonText">Cancel</string>
+    <string name="cannotSaveFileMessage">Cannot save file</string>
+    <string name="fileNameFirstMessage">Please enter the file name first</string>
+    <string name="okButtonText">OK</string>
+    <string name="loadButtonText">Load</string>
+    <string name="accessDenied">Access denied</string>
+    <string name="missingFile">No such file</string>
+    <string name="newFolderButtonText">New folder</string>
+    <string name="newFolderDialogMessage">Create new folder</string>
+    <string name="createButtonText">Create</string>
+    <string name="folderCreationOk">Folder created sucessfully</string>
+    <string name="folderCreationError">Error while creating folder</string>
+    <string name="information">Information</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

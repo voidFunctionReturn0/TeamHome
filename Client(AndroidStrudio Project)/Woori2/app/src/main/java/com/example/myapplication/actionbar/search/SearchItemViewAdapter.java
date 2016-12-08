@@ -1,0 +1,143 @@
+package com.example.myapplication.actionbar.search;
+
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
+import com.example.myapplication.dto.Teams;
+import com.example.myapplication.network.Network2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016-06-23.
+ */
+
+public class SearchItemViewAdapter extends BaseAdapter{
+    private List<Teams> list=new ArrayList<>();
+    public SearchItemViewAdapter adapter;
+    public Context context;
+    public SearchItemViewAdapter(Context context) {
+        this.adapter = this;
+        this.context = context;
+    }
+
+    public void setList(List<Teams> list) {
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        //itemView를 새로 만들어야 될 경우
+        if(convertView == null){
+            //inflation
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            convertView = layoutInflater.inflate(R.layout.team_search_item_view, parent, false);
+        }
+
+        //data setting
+        ImageView imageView;
+        TextView txtTname;
+        TextView txtTadmin;
+        TextView txtTdescr;
+        imageView = (ImageView) convertView.findViewById(R.id.team_search_imageView);
+        Button btnJoinTeamInSearchList = (Button) convertView.findViewById(R.id.btnJoinTeamInSearchList);
+        txtTname = (TextView) convertView.findViewById(R.id.team_search_item_txtTname);
+        txtTdescr = (TextView) convertView.findViewById(R.id.team_search_item_txtTdescr);
+        txtTadmin = (TextView) convertView.findViewById(R.id.team_search_item_txtTadmin);
+
+        btnJoinTeamInSearchList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Teams team = list.get(position);
+                Button button = (Button) v.findViewById(R.id.btnJoinTeamInSearchList);
+                Network2.setMemberToTeam(MainActivity.member.getMid(), team.getTid() );
+                button.setText("가입완료");
+                button.setEnabled(true);
+                team.setTnum(team.getTnum() + 1);
+                TextView txt =(TextView) ((View) v.getParent()).findViewById(R.id.team_search_item_txtTadmin);
+                txt.setText(team.getTnum() + "명 | 개설자 " + team.getMid());
+
+               // AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                // Setting Dialog Title
+                builder.setTitle("가입 성공");
+
+                // Setting Dialog Message
+                builder.setMessage("가입이 완료되었습니다.");
+
+                // Setting Icon to Dialog
+                //alertDialog.setIcon(R.drawable.tick);
+
+                // Setting OK Button
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+            }
+        });
+        if(list.size() > 0) {
+            Teams team = list.get(position);
+            txtTname.setText(team.getTname());
+            txtTadmin.setText(team.getTnum() + "명 | 개설자 " + team.getMid());
+
+            if(team.getTdescr().length() < 1){
+                txtTdescr.setHeight(0);
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                param.topMargin = 50;
+                param.leftMargin = 25;
+                txtTname.setLayoutParams(param);
+
+            }else{
+                txtTdescr.setText(team.getTdescr());
+            }
+
+            if(team.getIsJoin() == 1){
+                btnJoinTeamInSearchList.setVisibility( View.INVISIBLE);
+            }else{
+                btnJoinTeamInSearchList.setVisibility( View.VISIBLE);
+            }
+
+            if (team.getTid() == 0 ) {
+
+            } else {
+                Network2.getBitmap(team.getTprofile(), imageView);
+            }
+
+        }
+
+        return convertView;
+    }
+
+}

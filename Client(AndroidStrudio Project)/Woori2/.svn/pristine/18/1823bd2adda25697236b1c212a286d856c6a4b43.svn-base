@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "C:\\Temp\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "C:\\Temp\\Woori\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "C:\\KosaCourse\\AndroidFinalProjects\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "C:\\KosaCourse\\AndroidFinalProjects\\Woori\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "C:\\Kosacourse\\AndroidStudioProjects\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "C:\\Kosacourse\\AndroidStudioProjects\\Woori\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "C:\\KosaCourse\\AndroidFinalProjects\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_main_drawer.xml",
+        "source": "C:\\KosaCourse\\AndroidFinalProjects\\Woori\\app\\src\\main\\res\\menu\\activity_main_drawer.xml"
+    },
+    {
+        "merged": "C:\\Temp\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_main_drawer.xml",
+        "source": "C:\\Temp\\Woori\\app\\src\\main\\res\\menu\\activity_main_drawer.xml"
+    },
+    {
+        "merged": "C:\\Kosacourse\\AndroidStudioProjects\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_main_drawer.xml",
+        "source": "C:\\Kosacourse\\AndroidStudioProjects\\Woori\\app\\src\\main\\res\\menu\\activity_main_drawer.xml"
+    }
+]

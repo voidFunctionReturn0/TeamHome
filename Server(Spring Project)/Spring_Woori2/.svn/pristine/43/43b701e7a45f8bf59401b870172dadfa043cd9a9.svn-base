@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberMapper">
+
+	<resultMap id="resultMapMember" type="com.mycompany.myapp.dto.Member" >
+		<result column="mid" property="mid"/>
+  		<result column="mpwd" property="mpwd"/>
+  		<result column="mprofile" property="mprofile"/>
+  		<result column="mbirth" property="mbirth"/>
+	</resultMap>
+
+ <select id="selectByPk" parameterType="String" resultType="com.mycompany.myapp.dto.Member" resultMap="resultMapMember">
+  	select * from members where mid = #{mid}
+  </select>
+
+</mapper>

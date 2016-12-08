@@ -1,0 +1,220 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:background="#88000000">
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.myapplication.team.news.DetailNewsFragment">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="#ffffff"
+            android:paddingLeft="35dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/detailNewsMemberImageView"
+                        android:layout_margin="0dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="아이디"
+                        android:id="@+id/detailNewsMemberName"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:textColor="#003366"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/btnModifyNews"
+                    android:background="@drawable/teaminfo_modify_icon"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp" />
+
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/btnDeleteNews"
+                    android:background="@drawable/btn_news_detail_delete"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/detailNewsContentLayout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="내용입니다."
+                    android:id="@+id/detailNewsContent"
+                    android:textColor="#999999" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/detailNewsDataLayout">
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/btnDownData"
+                    android:background="@drawable/teamhome_data_click_icon"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="DataName"
+                    android:id="@+id/detailNewsDataName"
+                    android:textColor="#8c8c8c"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="날짜"
+                    android:id="@+id/detailNewsDate"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="#BABABA"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="15dp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/comment_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="댓글"
+                    android:id="@+id/detailNewsCommentNo"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="#8c8c8c"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/commentListView"
+            android:layout_weight="5"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:nestedScrollingEnabled="true"
+            android:divider="#94A4AF"
+            android:dividerHeight="1dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp">
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:id="@+id/detailNewsEditText"
+                android:background="@null"
+                android:hint="댓글작성"
+                android:paddingLeft="10dp" />
+
+            <Space
+                android:layout_width="35dp"
+                android:layout_height="20px" />
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/btnWriteComment"
+                android:background="@drawable/teaminfo_modify_icon" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

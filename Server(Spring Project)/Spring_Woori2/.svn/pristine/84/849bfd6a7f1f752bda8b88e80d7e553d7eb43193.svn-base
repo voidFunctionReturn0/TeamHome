@@ -1,0 +1,45 @@
+package com.mycompany.myapp.dto;
+
+import java.sql.*;
+
+public class Newscomment {
+	
+	private int cid;
+	private String ccomment;
+	private Date cdate;
+	private int nid;
+	private String mid;
+	
+	
+	public int getCid() {
+		return cid;
+	}
+	public void setCid(int cid) {
+		this.cid = cid;
+	}
+	public String getCcomment() {
+		return ccomment;
+	}
+	public void setCcomment(String ccomment) {
+		this.ccomment = ccomment;
+	}
+	public Date getCdate() {
+		return cdate;
+	}
+	public void setCdate(Date cdate) {
+		this.cdate = cdate;
+	}
+	public int getNid() {
+		return nid;
+	}
+	public void setNid(int nid) {
+		this.nid = nid;
+	}
+	public String getMid() {
+		return mid;
+	}
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
+	
+}

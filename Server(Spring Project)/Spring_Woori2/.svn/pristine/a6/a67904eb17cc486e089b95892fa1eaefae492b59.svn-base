@@ -1,0 +1,21 @@
+package com.mycompany.myapp.dao;
+
+import java.util.*;
+
+import org.mybatis.spring.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class CommentDao {
+	
+	@Autowired
+	private SqlSessionTemplate sst;
+	
+	public List<Newscomment> selectListByNid(int nid) {
+		return sst.selectList("CommentMapper.selectListByNid", nid);
+	}
+
+}

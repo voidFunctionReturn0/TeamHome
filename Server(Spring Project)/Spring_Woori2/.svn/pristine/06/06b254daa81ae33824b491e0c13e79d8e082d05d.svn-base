@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+
+ <!-- <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"> -->
+ 
+ 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value> <!--스프링 설정파일  -->
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class><!--was에 배치될때 실행  -->
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name> <!--DispatcherServlet 준말-->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value><!--스프링설정 파일  -->
+		</init-param>
+		<load-on-startup>1</load-on-startup><!--was 에 배치할때 servlet 객체를 만들게 한다.  -->
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+ <!-- 필터 등록 처음에 안들어가 있고 우리가 넣어야함-->
+  <filter>
+  		<filter-name>CharacterEncodingFilter</filter-name>
+  		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  		<init-param>
+  			<param-name>encoding</param-name>
+  			<param-value>UTF-8</param-value>
+  		</init-param>
+  </filter>
+   
+  <!-- 필터 URL 매핑(어떤 요청이 들어오면 필터를 적용하겠다.) -->
+  
+  <filter-mapping>
+  		<filter-name>CharacterEncodingFilter</filter-name>
+  		<url-pattern>/*</url-pattern> <!-- 모든 요청을 처리 -->
+  </filter-mapping>
+	
+  <error-page>
+	  	<error-code>404</error-code>
+	  	<location>/WEB-INF/views/ch08/404.jsp</location>
+  </error-page>
+  
+  <!--WAS가 관리하는 ConnectionPool 참조-->
+	<resource-ref>
+		 <res-ref-name>jdbc/projectoracle</res-ref-name>
+		 <res-type>javax.sql.DataSource</res-type>
+		 <res-auth>Container</res-auth>
+	</resource-ref>
+
+</web-app>

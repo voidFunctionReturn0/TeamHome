@@ -1,0 +1,70 @@
+package com.mycompany.myapp.controller.homemain;
+
+import java.io.*;
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+public class HomemainController {
+	@Autowired
+	private TeamService teamService;
+	//내가 가입한 팀 리스트 불러오기
+		@RequestMapping("/team/list")
+		public void list(String mid, HttpServletResponse response){
+			List<Teams> teamList = teamService.getTeamListByMid(mid);
+	/*		Ch14FileInfo fileInfo = (Ch14FileInfo) session.getAttribute("fileInfo");
+			
+			String realPath = application.getRealPath("/WEB-INF/upload/" + fileInfo.getSavedFileName());*/
+			//String mimeType = fileInfo.getContentType()
+			String mimeType = "application/json";
+			//헤더행 추가
+			response.setContentType(mimeType);
+//			String filename = new String(fileInfo.getOriginalFileName().getBytes("UTF-8") , "ISO-8859-1");
+//			response.addHeader("Content-Disposition", "attachment;filename=\"" + filename+"\"");
+				
+			
+			// 본문에 파일 데이터 출력	
+			// 입력 스트림 얻기
+			JSONObject root = new JSONObject();
+			if(teamList == null || teamList.size() == 0){
+				root.put("result", "fail");
+			}else{
+				root.put("result", "success");
+			}
+			
+			JSONArray array = new JSONArray();		
+			for(Teams team : teamList){
+				JSONObject data = new JSONObject();
+				data.put("tid", team.getTid());
+				data.put("tname", team.getTname());
+				data.put("tdescr", team.getTdescr() != null ? team.getTdescr() : "");
+				data.put("mid", team.getMid());
+				data.put("tprofile", team.getTprofile()  != null ? team.getTprofile() : "");
+				array.put(data);
+			}
+			root.put("list", array);
+		
+			// 출력 스트림 얻기
+			OutputStream os;
+			try {
+				os = response.getOutputStream();
+				String str = root.toString();
+				os.write(str.getBytes());
+				
+				os.flush();
+
+				os.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+}

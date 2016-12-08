@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.myapplication.actionbar.search.SearchingFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <SearchView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/searchView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team 추천"
+            android:id="@+id/textView10"
+            android:layout_marginLeft="15dp" />
+
+        <ListView android:id="@+id/searchListView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:transcriptMode="alwaysScroll"
+            android:cacheColorHint="#00000000"
+            android:listSelector="@android:color/transparent"/>
+    </LinearLayout>
+
+</FrameLayout>

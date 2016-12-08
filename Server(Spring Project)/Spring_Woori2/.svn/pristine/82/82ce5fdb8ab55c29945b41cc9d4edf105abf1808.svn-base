@@ -1,0 +1,31 @@
+package com.mycompany.myapp.dao;
+
+import java.util.*;
+
+import org.mybatis.spring.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class TeamDao {
+	@Autowired
+	private SqlSessionTemplate sst;
+	
+	public List<Teams> selectListByMid(String mid){
+		return sst.selectList("TeamMapper.selectListByMid",mid);
+		
+	}
+	
+	public List<Teams> selectListByKeyword(String keyword){
+		keyword = "%" + keyword + "%";
+		return sst.selectList("TeamMapper.selectListByKeyword",keyword);
+		
+	}
+	public String insert(Teams team){
+		sst.insert("TeamMapper.insert" , team);
+		return team.getMid();
+	}
+
+}

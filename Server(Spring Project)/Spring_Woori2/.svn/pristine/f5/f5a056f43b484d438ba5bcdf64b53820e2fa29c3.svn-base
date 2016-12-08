@@ -1,0 +1,82 @@
+package com.mycompany.myapp.controller;
+
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class MemberController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
+	@Autowired
+	private MemberService memberService;
+	
+	@RequestMapping("/member/login")
+	public String login(String mid, String mpwd, Model model) {
+		
+		Member member = memberService.getMember(mid);
+		
+		if(member != null){
+			if(member.getMpwd().equals(mpwd) == true) {
+				
+				model.addAttribute("loginresult","success" );				
+				model.addAttribute("mid", member.getMid());
+				model.addAttribute("mpwd", member.getMpwd());
+				model.addAttribute("mprofile",member.getMprofile());
+				model.addAttribute("mbirth",member.getMbirth().toString());
+				
+			} else {
+				model.addAttribute("loginresult", "fail");
+				model.addAttribute("mid", "");
+				model.addAttribute("mpwd", "");
+				model.addAttribute("mprofile", "");
+				model.addAttribute("mbirth", "");
+			}
+		}else{
+			model.addAttribute("loginresult", "fail");
+			model.addAttribute("mid", "");
+			model.addAttribute("mpwd", "");
+			model.addAttribute("mprofile", "");
+			model.addAttribute("mbirth", "");
+		}
+		
+		return "member/login";
+	}
+	
+	
+	@RequestMapping("/member/duplicate")
+	public String duplicate(String mid, Model model){
+		
+		Member member = memberService.getMember(mid);
+		
+		if(member == null){
+			model.addAttribute("dupCheck","success");
+		}else{
+			model.addAttribute("dupCheck","fail");
+		}
+		return "member/duplicate";
+		
+	}
+	
+	@RequestMapping("/member/join")
+	public String join(String mid, String mpwd, String mbirthday){
+		
+		logger.info(mid);
+		logger.info(mpwd);
+		
+		
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,22 @@
+package com.mycompany.myapp.service;
+
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dao.*;
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class TeamService {
+
+	@Autowired
+	private TeamDao teamDao;
+	
+	public List<Teams> getTeamListByMid(String mid){
+		List<Teams> teamList = null;
+		teamList = teamDao.selectListByMid(mid);
+		return teamList;
+	}
+}

@@ -1,0 +1,130 @@
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffe95451">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_horizontal">
+
+                    <Button
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/btnPrevMonth"
+                        android:background="@android:drawable/ic_media_rew"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2017"
+                        android:id="@+id/txtYear" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="년"
+                        android:id="@+id/txtNeun"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtMonth"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:text="8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtWall"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:text="월"
+                        android:layout_marginRight="10dp" />
+
+                    <Button
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/btnNextMonth"
+                        android:background="@android:drawable/ic_media_ff" />
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:text="오늘"
+                    android:id="@+id/btnGoToday"
+                    android:background="@drawable/btn_today"
+                    android:layout_marginRight="15dp" />
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/btnAddSchedule"
+                    android:background="@android:drawable/ic_input_add" />
+
+            </LinearLayout>
+
+            <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/compactCalendarView"
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                app:compactCalendarTargetHeight="250dp"
+                app:compactCalendarTextSize="12sp"
+                app:compactCalendarBackgroundColor="#ffe95451"
+                app:compactCalendarTextColor="#fff"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+                app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:id="@+id/btnListUp"
+                android:background="@android:drawable/arrow_up_float" />
+
+            <ListView
+                android:id="@+id/schedulesListView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@+id/compactCalendarView"
+                android:layout_weight="1">
+            </ListView>
+        </LinearLayout>
+    </LinearLayout>
+

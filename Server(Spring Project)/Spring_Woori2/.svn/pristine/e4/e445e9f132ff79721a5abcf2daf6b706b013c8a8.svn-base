@@ -1,0 +1,6 @@
+<%@ page contentType="application/json; charset=UTF-8"%>{
+	"tname" : "${tname}",
+	"mid" : "${mid}",
+	"tprofile" : "${tprofile}",
+	"tdescr" : "${tdescr}",
+}

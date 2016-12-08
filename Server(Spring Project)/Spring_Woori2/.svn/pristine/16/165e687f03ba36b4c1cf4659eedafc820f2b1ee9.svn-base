@@ -1,0 +1,55 @@
+package com.mycompany.myapp.controller;
+
+import java.io.*;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mycompany.myapp.dto.Schedule;
+import com.mycompany.myapp.service.ScheduleService;
+
+@Controller
+public class ScheduleController {
+	
+	@Autowired
+	private ScheduleService scheduleService;
+	
+	@RequestMapping("/schedule/getListByTid")
+	public void getList(HttpServletResponse response, int tid) {
+		try {
+			// tid에 해당하는 일정 리스트를 DB에서 가져오기
+			List<Schedule> schedules = scheduleService.getListByTid(tid);
+						
+			// tid에 해당하는 일정이 있으면 JSONArray로 변환하기
+			if(schedules != null) {
+				JSONArray schedulesJSON = new JSONArray();
+				
+				for(Schedule s : schedules) {
+					// 각 일정을 JSONObject로 변환해서 JSONArray에 넣기
+					JSONObject sJSON = new JSONObject();
+					sJSON.put("sid", s.getSid());
+					sJSON.put("sname", s.getSname());
+					sJSON.put("sicon", s.getSicon());
+					sJSON.put("sstartdate", s.getSstartdate());
+					sJSON.put("senddate", s.getSenddate());
+					sJSON.put("stime", s.getStime());
+					sJSON.put("sdescr", s.getSdescr());
+					sJSON.put("tid", s.getTid());
+					
+					schedulesJSON.put(sJSON);
+				}			
+				
+				// 응답Http 본문에 List를 추가하기
+				OutputStream os = response.getOutputStream();
+				os.write(schedulesJSON.toString().getBytes());
+				os.flush();
+				os.close();
+			}			
+		} catch(IOException e) { e.printStackTrace(); }
+	}
+}

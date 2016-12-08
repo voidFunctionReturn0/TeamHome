@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="#00000000"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ffffff" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></LinearLayout>
+
+            <View
+                android:layout_width="5dip"
+                android:layout_height="match_parent"
+                android:background="@drawable/drop_shadow_todo">
+            </View>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical|center_horizontal">
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:text="날짜"
+                        android:id="@+id/newsDateTextView"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_weight="4"
+                        android:background="@drawable/datetextview" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:padding="15dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:id="@+id/newsMemberImageView" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:text="대끼"
+                                android:id="@+id/newsNameTextView"
+                                android:layout_weight="1"
+                                android:textSize="15dp"
+                                android:gravity="center_vertical"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="10dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:text="날짜"
+                                android:id="@+id/newsTimeTextView"
+                                android:textSize="15dp"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="2" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/comment_icon"
+                                android:layout_marginLeft="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="댓글"
+                                android:id="@+id/commentNumber"
+                                android:layout_marginLeft="5dp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="내용"
+                            android:id="@+id/newsContentTextView"
+                            android:gravity="center_vertical"
+                            android:textColor="#003366"
+                            android:textSize="19dp"
+                            android:layout_marginTop="5dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/newsPhotoImageView"
+                            android:layout_marginTop="50dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="5dip"
+                android:background="@drawable/drop_shadow"
+                android:layout_weight="1">
+            </View>
+
+            <android.support.v4.widget.Space
+                android:layout_width="2dip"
+                android:layout_height="match_parent"
+                android:id="@+id/view"
+                android:background="#00000000" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

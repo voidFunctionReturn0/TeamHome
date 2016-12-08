@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NewsMapper">
+	<resultMap id="resultMap" type="com.mycompany.myapp.dto.News">
+		<result column="nid" property="nid"/>
+		<result column="mid" property="mid"/>
+		<result column="mprofile" property="mprofile"/>
+		<result column="ndate" property="ndate"/>
+		<result column="ncontent" property="ncontent"/>
+		<result column="nphotoname" property="nphotoname"/>
+		<result column="ndataname" property="ndataname"/>
+		<result column="nisnotice" property="nisnotice"/>
+		<result column="tid" property="tid"/>
+	</resultMap>
+	
+	<select id="selectListByTid"
+			parameterType="_int" 
+			resultType="com.mycompany.myapp.dto.News"
+			resultMap="resultMap">
+		select n.nid, n.mid, m.mprofile, n.ndate, n.ncontent, n.nphotoname, n.ndataname, n.nisnotice, n.tid 
+		from news n, members m where n.mid=m.mid and tid = #{tid} order by n.nid desc
+	</select>
+	
+	<select id="selectByPk" parameterType="int" resultType="com.mycompany.myapp.dto.News" resultMap="resultMap">
+		select n.nid, n.mid, m.mprofile, n.ndate, n.ncontent, n.nphotoname, n.ndataname, n.nisnotice, n.tid 
+		from news n, members m where n.mid=m.mid and nid = #{nid}
+	</select>
+	
+	<delete id="deleteByNid" parameterType="int">
+		delete from news where nid = #{nid}
+	</delete>
+	
+	<update id="update" parameterType="com.mycompany.myapp.dto.News">
+		update news set ncontent=#{ncontent} where nid=#{nid}
+	</update>
+	
+	
+</mapper>

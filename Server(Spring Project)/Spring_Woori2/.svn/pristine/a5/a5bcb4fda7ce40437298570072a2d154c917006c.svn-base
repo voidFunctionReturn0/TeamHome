@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TeamMapper">
+	<resultMap id="resultMap" type="com.mycompany.myapp.dto.Teams">
+		<result column="tname" property="tname"/>
+		<result column="mid" property="mid"/>
+		<result column="tprofile" property="tprofile"/>
+		<result column="tdescr" property="tdescr"/>
+		<result column="tid" property="tid"/>
+	</resultMap>
+	<select id="selectListByMid"
+			parameterType="String" 
+			resultType="com.mycompany.myapp.dto.Teams"
+			resultMap="resultMap">
+		select tname , mid  , tprofile , tdescr , tid  
+		from  teams
+		where  tid in ( select tm.tid 
+			from team_member tm
+			where tm.mid = #{mid} )	
+	</select>
+	
+	<insert id="insert" parameterType="com.mycompany.myapp.dto.Teams">
+  	  <selectKey keyProperty="tid" resultType="int" order="AFTER">
+  	  	select seq_teams_tid.currval from dual
+  	  </selectKey>
+	  insert into teams (tid ,tname ,mid ,tprofile ,tdescr)
+	  values (seq_teams_tid.nextval, #{tname}, #{mid},#{tprofile, jdbcType=VARCHAR}, #{tdescr})
+  </insert>
+	
+</mapper>

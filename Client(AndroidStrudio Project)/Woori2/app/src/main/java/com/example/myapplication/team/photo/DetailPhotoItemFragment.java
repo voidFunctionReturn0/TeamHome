@@ -1,0 +1,87 @@
+package com.example.myapplication.team.photo;
+
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.dto.News;
+import com.example.myapplication.network.Network1;
+
+import java.text.SimpleDateFormat;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class DetailPhotoItemFragment extends Fragment {
+    private News news = new News();
+
+    private ImageView detailPhotoMember;
+    private TextView detailPhotoDate;
+    private TextView detailPhotoWriter;
+    private Button btnDetailPhotoCancel;
+    private TextView detailPhotoContentTextView;
+    private ImageView detailPhotoImageView;
+    private Button btnDownPhoto;
+
+
+    public void setNews(News news) {
+        this.news = news;
+    }
+
+    public DetailPhotoItemFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_detail_photo_fragment_item, container, false);
+
+        detailPhotoMember = (ImageView)view.findViewById(R.id.detailPhotoMember);
+        detailPhotoDate = (TextView)view.findViewById(R.id.detailPhotoDate);
+        detailPhotoWriter = (TextView)view.findViewById(R.id.detailPhotoWriter);
+        btnDetailPhotoCancel = (Button)view.findViewById(R.id.btnDetailPhotoCancel);
+        detailPhotoContentTextView = (TextView)view.findViewById(R.id.detailPhotoContentTextView);
+        detailPhotoImageView = (ImageView)view.findViewById(R.id.detailPhotoImageView);
+
+        btnDownPhoto = (Button)view.findViewById(R.id.btnDownPhoto);
+
+        Network1.getBitmap(news.getMprofile(), detailPhotoMember);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
+        detailPhotoDate.setText(sdf.format(news.getNdate()));
+        detailPhotoWriter.setText(news.getMid());
+        btnDetailPhotoCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Fragment parentFragment = getActivity().getSupportFragmentManager().findFragmentByTag("xxx");
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .remove(DetailPhotoItemFragment.this.getParentFragment())
+                        .commit();
+            }
+        });
+
+        detailPhotoContentTextView.setText(news.getNcontent());
+        Network1.getBitmap("photo/"+news.getNphotoname(), detailPhotoImageView);
+
+
+        btnDownPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Network1.downloadPhoto(news.getNphotoname(), getContext());
+            }
+        });
+
+        return view;
+    }
+
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberMapper">
+
+	<resultMap id="resultMapMember" type="com.mycompany.myapp.dto.Member" >
+		<result column="mid" property="mid"/>
+  		<result column="mpwd" property="mpwd"/>
+  		<result column="mprofile" property="mprofile"/>
+  		<result column="mbirth" property="mbirth"/>
+	</resultMap>
+
+ <select id="selectByPk" parameterType="String" resultType="com.mycompany.myapp.dto.Member" resultMap="resultMapMember">
+  	select * from members where mid = #{mid}
+  </select>
+  
+  <insert id="insert" parameterType="com.mycompany.myapp.dto.Member"> <!-- insert의 식별명, parameterType: 전달되는 객체의 타입이 뭐냐  -->
+  		insert into members (mid, mpwd, mbirth, mprofile)
+  		values(#{mid}, #{mpwd}, #{mbirth}, #{mprofile})
+  </insert>
+  <!-- 팀에 가입하기 -->
+	<insert id="insertToTeam"  parameterType="map">
+		insert into team_member(mid, tid)
+		values(#{mid}, #{tid})
+	</insert>
+	
+	<update id="revise" parameterType="com.mycompany.myapp.dto.Member">
+		update members set mpwd = #{mpwd} where mid=#{mid}
+	</update>
+	
+	<delete id="out" parameterType="String">
+		delete from members where mid = #{mid}
+	</delete>
+</mapper>

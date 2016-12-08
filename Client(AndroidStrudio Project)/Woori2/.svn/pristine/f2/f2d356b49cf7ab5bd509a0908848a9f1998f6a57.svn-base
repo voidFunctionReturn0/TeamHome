@@ -1,0 +1,134 @@
+package com.example.myapplication.team.news;
+
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
+import com.example.myapplication.dto.News;
+import com.example.myapplication.network.Network1;
+
+import java.text.SimpleDateFormat;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class DetailNewsFragment extends Fragment {
+    private News news;
+    private ImageView detailNewsMemberImageView;
+    private TextView detailNewsMemberName;
+    private TextView detailNewsDate;
+    private TextView detailNewsContent;
+    private int detailNewsFragmentId;
+    private CommentItemViewAdapter commentItemViewAdapter;
+    private ListView commentListView;
+    private EditText detailNewsEditText;
+    private Button btnWriteComment;
+    private Button btnModifyNews;
+    private Button btnDeleteNews;
+    private ImageView newsImageView;
+
+
+    public void setNews(News news) {
+        this.news=news;
+    }
+
+
+    public DetailNewsFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        detailNewsFragmentId = this.getId();
+
+
+        View view = inflater.inflate(R.layout.fragment_detail_news, container, false);
+
+        //각 view들 매핑
+        detailNewsMemberImageView = (ImageView) view.findViewById(R.id.detailNewsMemberImageView);
+        detailNewsMemberName = (TextView) view.findViewById(R.id.detailNewsMemberName);
+        detailNewsDate = (TextView) view.findViewById(R.id.detailNewsDate);
+        detailNewsContent = (TextView) view.findViewById(R.id.detailNewsContent);
+        detailNewsEditText = (EditText) view.findViewById(R.id.detailNewsEditText);
+        newsImageView = (ImageView)view.findViewById(R.id.newsImageView);
+
+        btnWriteComment = (Button) view.findViewById(R.id.btnWriteComment);
+        //뉴스
+        btnModifyNews = (Button) view.findViewById(R.id.btnModifyNews);
+        btnDeleteNews = (Button) view.findViewById(R.id.btnDeleteNews);
+
+
+        //로그인 멤버와 소식 글쓴이의 일치 여부 판단
+        if(MainActivity.member.getMid().equals(news.getMid())) {
+            btnModifyNews.setVisibility(View.VISIBLE);
+            btnDeleteNews.setVisibility(View.VISIBLE);
+        }
+
+
+        //소식 정보 표시
+        Network1.getBitmap(news.getMprofile(), detailNewsMemberImageView);
+        Network1.getBitmap("photo/"+news.getNphotoname(), newsImageView);
+        Log.i("mylog",news.getNphotoname()+"");
+        detailNewsMemberName.setText(news.getMid());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        detailNewsDate.setText(sdf.format(news.getNdate()));
+        detailNewsContent.setText(news.getNcontent());
+
+
+        //소식 댓글 표시
+        commentListView = (ListView)view.findViewById(R.id.commentListView);
+        commentItemViewAdapter = new CommentItemViewAdapter(view.getContext());
+        commentItemViewAdapter.setFragment(getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId));
+        Network1.getCommentList(news.getNid(), getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId), commentItemViewAdapter);
+        commentListView.setAdapter(commentItemViewAdapter);
+
+        //댓글 등록
+        btnWriteComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Network1.writeComment(detailNewsEditText.getText().toString(), news.getNid(), getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId));
+            }
+        });
+
+        btnDeleteNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Network1.deleteNews(news.getNid(), getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId));
+            }
+        });
+
+
+        btnModifyNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ModifyNewsFragment modifyNewsFragment = new ModifyNewsFragment();
+                modifyNewsFragment.setNews(news);
+
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, modifyNewsFragment)
+                        .commit();
+            }
+        });
+
+        return view;
+    }
+
+
+}

@@ -1,0 +1,39 @@
+package com.mycompany.myapp.dao;
+
+import java.util.*;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.mycompany.myapp.dto.Schedule;
+
+@Component
+public class ScheduleDao {
+	@Autowired
+	private SqlSessionTemplate sst;
+	
+	public List<Schedule> selectByTid(int tid) {
+		List<Schedule> list =  sst.selectList("ScheduleMapper.selectByTid", tid);
+		System.out.println("list0: " + list.size());
+		return list;
+	}
+	
+	// 성공시 PK, 실패시 -1 리턴
+	public int insert(Schedule schedule) {
+		int result = sst.insert("ScheduleMapper.insert", schedule);
+		if(result == 1)	return schedule.getSid();
+		else			return -1;
+	}
+	
+	
+	public int delete(int sid) {
+		return sst.delete("ScheduleMapper.delete", sid);
+	}
+	
+	
+	public int update(Schedule s) {
+		return sst.update("ScheduleMapper.update", s);
+	}
+
+}

@@ -1,0 +1,168 @@
+package com.mycompany.myapp.controller;
+
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class TeamController {
+
+	@Autowired
+	private TeamService teamService;
+	
+	/*@RequestMapping("/team/addteam")
+	public String addteam(String tname, String tdescr,String mid) {
+		
+		System.out.println(tname);
+		System.out.println(tdescr);
+		System.out.println(mid);
+		
+		Teams team = new Teams();
+		team.setTname(tname);
+		team.setTdescr(tdescr);
+		team.setMid(mid);
+		//team.setTprofile("");
+		teamService.write(team);
+		
+		return "team/addteam";
+	}*/
+	
+	
+	@RequestMapping("/team/addteam")
+	public String addteam(String tname,String tdescr, String mid ,MultipartFile tprofile , HttpServletRequest request , HttpSession session){
+		String originalFileName = tprofile.getOriginalFilename();
+		long size = tprofile.getSize();
+		String contentType = tprofile.getContentType();
+		String savedFileName = new Date().getTime()+originalFileName;
+		
+		ServletContext application = request.getServletContext();
+		String realPath = application.getRealPath("/WEB-INF/upload/" + savedFileName);
+		File file = new File(realPath);
+		try {
+			tprofile.transferTo(file);
+		}  catch (Exception e) {}
+		
+		Ch14FileInfo fileInfo = new Ch14FileInfo();
+		fileInfo.setOriginalFileName(originalFileName);
+		fileInfo.setSavedFileName(savedFileName);
+		fileInfo.setContentType(contentType);
+		fileInfo.setSize(size);
+		fileInfo.setDesc(tdescr);;
+		
+		session.setAttribute("fileInfo", fileInfo);
+		
+		return "success";
+	}
+	
+	
+	@RequestMapping("/team/list")
+	public void list(String mid, HttpServletResponse response){
+		List<Teams> teamList = teamService.getTeamListByMid(mid);
+/*		Ch14FileInfo fileInfo = (Ch14FileInfo) session.getAttribute("fileInfo");
+		
+		String realPath = application.getRealPath("/WEB-INF/upload/" + fileInfo.getSavedFileName());*/
+		//String mimeType = fileInfo.getContentType()
+		String mimeType = "application/json";
+		//헤더행 추가
+		response.setContentType(mimeType);
+//		String filename = new String(fileInfo.getOriginalFileName().getBytes("UTF-8") , "ISO-8859-1");
+//		response.addHeader("Content-Disposition", "attachment;filename=\"" + filename+"\"");
+			
+		// 본문에 파일 데이터 출력	
+		// 입력 스트림 얻기
+		JSONObject root = new JSONObject();
+		if(teamList == null || teamList.size() == 0){
+			root.put("result", "fail");
+		}else{
+			root.put("result", "success");
+		}
+		
+		JSONArray array = new JSONArray();		
+		for(Teams team : teamList){
+			JSONObject data = new JSONObject();
+			data.put("tid", team.getTid());
+			data.put("tname", team.getTname());
+			data.put("tdescr", team.getTdescr());
+			data.put("mid", team.getMid());
+			data.put("tprofile", team.getTprofile());
+			array.put(data);
+		}
+		root.put("list", array);
+	
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	
+	//소식 리스트 얻기
+	@RequestMapping("/team/news/list")
+	public void newsList(int tid, HttpServletResponse response) {
+		List<News> list = teamService.getNewsListByTid(tid);
+		String mimeType = "application/json";
+		response.setContentType(mimeType);
+		
+		JSONObject root = new JSONObject();
+		if((list==null)||(list.size()==0)) {
+			root.put("newsResult", "fail");
+		}else {
+			root.put("newsResult", "success");
+			JSONArray newsArray = new JSONArray();
+			for(News news:list) {
+				JSONObject newsJson = new JSONObject();
+				newsJson.put("nid", news.getNid());
+				newsJson.put("mid", news.getMid());
+				newsJson.put("mprofile", news.getMprofile() != null?news.getMprofile():"");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				newsJson.put("ndate", sdf.format(news.getNdate()));
+				newsJson.put("ncontent", news.getNcontent());
+				newsJson.put("nphotoname", news.getNphotoname() != null?news.getNphotoname():"");
+				newsJson.put("ndataname", news.getNdataname());
+				newsJson.put("nisnotice", news.getNisnotice());
+				newsJson.put("tid", news.getTid());
+				newsArray.put(newsJson);
+			}
+			root.put("list", newsArray);
+		}
+		
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+	}
+}

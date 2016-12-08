@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Temp\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Temp\\Woori\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Kosacourse\\AndroidStudioProjects\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Kosacourse\\AndroidStudioProjects\\Woori\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\KosaCourse\\AndroidFinalProjects\\Woori\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\KosaCourse\\AndroidFinalProjects\\Woori\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    }
+]

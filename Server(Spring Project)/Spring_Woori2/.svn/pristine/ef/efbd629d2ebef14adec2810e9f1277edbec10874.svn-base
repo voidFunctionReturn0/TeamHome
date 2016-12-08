@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ScheduleMapper">
+
+	<resultMap id="resultMapSchedule" type="com.mycompany.myapp.dto.Schedule" >
+		<result column="sid" property="sid"/>
+  		<result column="sname" property="sname"/>
+  		<result column="sicon" property="sicon"/>
+  		<result column="sstartdate" property="sstartdate"/>
+  		<result column="senddate" property="senddate"/>
+  		<result column="stime" property="stime"/>
+  		<result column="sdescr" property="sdescr"/>
+  		<result column="tid" property="tid"/>
+	</resultMap>
+
+ 	<select id="selectByTid" 
+ 		 parameterType="int" 
+ 		 resultType="com.mycompany.myapp.dto.Schedule" 
+ 		 resultMap="resultMapSchedule">
+  		select * from schedules where tid = #{tid}
+  	</select>
+  	
+  	<insert id="insert" parameterType="com.mycompany.myapp.dto.Schedule">
+		<selectKey keyProperty="sid" resultType="int" order="AFTER">
+			select seq_schedules_sid.currval from dual
+		</selectKey>
+		insert into schedules(sid, sname, sicon, sstartdate, senddate, stime, sdescr, tid)
+		values(seq_schedules_sid.nextval, #{sname}, #{sicon}, #{sstartdate}, #{senddate}, #{stime}, #{sdescr}, #{tid})
+	</insert>
+
+</mapper>

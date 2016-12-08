@@ -1,0 +1,35 @@
+package com.mycompany.myapp.dao;
+
+import java.util.*;
+
+import org.mybatis.spring.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class MemberDao {
+
+	@Autowired
+	private SqlSessionTemplate sst;
+	
+	public Member selectByPk(String mid){
+		return sst.selectOne("MemberMapper.selectByPk",mid);
+	}
+	
+	public void insert(Member member){
+		sst.insert("MemberMapper.insert" , member);
+	}
+	//팀에 가입하기
+	public void insertToTeam(String mid, int tid){
+		Map<String, Object> map = new HashMap<>();
+		map.put("mid", mid);
+		map.put("tid", tid);
+		sst.insert("MemberMapper.insertToTeam",map );
+	}
+	
+	public void update(Member member){
+		sst.update("MemberMapper.revise",member);
+	}
+}

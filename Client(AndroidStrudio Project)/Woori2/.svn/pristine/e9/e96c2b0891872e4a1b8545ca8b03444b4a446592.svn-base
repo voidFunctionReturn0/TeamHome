@@ -1,0 +1,79 @@
+package com.example.myapplication.actionbar.navi.teamInfo;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.dto.Member;
+import com.example.myapplication.network.Network5;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016-07-20.
+ */
+public class TeamMembersListViewAdapter extends BaseAdapter {
+
+    private boolean isAdmin = false;
+    public void setIsAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
+
+    private List<Member> list;
+    public void setList(List<Member> list) { this.list = list; }
+
+    private Context context;
+    public TeamMembersListViewAdapter(Context context) { this.context = context; }
+
+
+    @Override
+    public int getCount() {
+        if(list != null)    return list.size();
+        else                return -1;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        if(list != null)    return list.get(position);
+        else                return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // 아이템뷰를 새로 만드는 경우
+        if(convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_view_team_members, parent, false);
+        }
+
+        // 뷰 인플레이션
+        ImageView memberProfileImageView = (ImageView) convertView.findViewById(R.id.memberProfileImageView);
+        TextView txtMid = (TextView) convertView.findViewById(R.id.txtMid);
+        TextView txtMbirth = (TextView) convertView.findViewById(R.id.txtMbirth);
+        Button btnAdminTransfer = (Button) convertView.findViewById(R.id.btnAdminTransfer);
+
+        // 팀장임명버튼 보이기/숨기기
+        if(isAdmin==true) { btnAdminTransfer.setVisibility(View.VISIBLE); }
+        else { btnAdminTransfer.setVisibility(View.INVISIBLE); }
+        // 리스트 정보로 아이템뷰를 세팅하기 시작
+        Member m = list.get(position);
+
+        if(m.getMprofile() != null) {
+            Network5.getBitmap(m.getMprofile(), memberProfileImageView);
+        }
+        txtMid.setText(m.getMid());
+        if(m.getMbirth() != null) {
+            txtMbirth.setText("생일: " + m.getMbirth().toString());
+        }
+
+        return convertView;
+    }
+}

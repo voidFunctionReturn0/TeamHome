@@ -1,0 +1,146 @@
+package com.mycompany.myapp.controller;
+
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class TeamController {
+	private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
+
+	@Autowired
+	private TeamService teamService;
+	
+	/*@RequestMapping("/team/addteam")
+	public String addteam(String tname, String tdescr,String mid) {
+		
+		System.out.println(tname);
+		System.out.println(tdescr);
+		System.out.println(mid);
+		
+		Teams team = new Teams();
+		team.setTname(tname);
+		team.setTdescr(tdescr);
+		team.setMid(mid);
+		//team.setTprofile("");
+		teamService.write(team);
+		
+		return "team/addteam";
+	}*/
+	
+	@RequestMapping("/team/addteam")
+	public String addteam(String tname,String tdescr, String mid ,MultipartFile tprofile , HttpServletRequest request , Model model ){
+		String originalFileName = tprofile.getOriginalFilename();
+		long size = tprofile.getSize();
+		String contentType = tprofile.getContentType();
+		String savedFileName = mid+"_"+originalFileName;
+		
+		Teams team = new Teams();
+		team.setTname(tname);
+		team.setTdescr(tdescr);
+		team.setMid(mid);
+		team.setTprofile(savedFileName);
+		
+		teamService.write(team);
+
+		logger.info("tname: " + tname);
+		logger.info("tdescr: " + tdescr);
+		logger.info("size: " + size);
+		logger.info("contentType: " + contentType);
+		logger.info("savedFileName: " + savedFileName);
+		
+		ServletContext application = request.getServletContext();
+		String realPath = application.getRealPath("/WEB-INF/upload/" + savedFileName);
+		File file = new File(realPath);
+		try {
+			tprofile.transferTo(file);
+		}  catch (Exception e) {}
+		
+		
+		model.addAttribute("addteamresult","success" );				
+		model.addAttribute("tname", team.getTname());
+		model.addAttribute("tdescr", team.getTdescr());
+		model.addAttribute("tprofile",team.getTprofile());
+		
+		return "team/addteam";
+	}
+	
+	
+	@RequestMapping("/team/image")
+	public void image(int tid, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(tid);		
+		Teams team = teamService.getTeam(tid);
+		String fileName = team.getTprofile();
+		ServletContext application = request.getServletContext();		
+		String realPath = application.getRealPath("/WEB-INF/upload/" + fileName);
+		
+        File downloadFile = new File(realPath);
+        FileInputStream inputStream;
+       
+		try {			
+			inputStream = new FileInputStream(downloadFile);
+			
+			// get MIME type of the file
+	        ServletContext context = request.getSession().getServletContext();
+	        
+	        String mimeType = context.getMimeType(realPath);
+
+	        if (mimeType == null) {
+	            // set to binary type if MIME mapping not found
+	            mimeType = "application/octet-stream";
+	        }
+	        
+	        // check the mime type
+	        
+	        // set content attributes for the response
+	        response.setContentType(mimeType);
+	        response.setContentLength((int) downloadFile.length());
+	        	
+	        
+	        // set headers for the response
+	        String headerKey = "Content-Disposition";
+	        String headerValue = String.format("attachment; filename=\"%s\"",
+	                downloadFile.getName());
+
+	        response.setHeader(headerKey, headerValue);
+	        // get output stream of the response
+	        OutputStream outStream = response.getOutputStream();
+	        byte[] buffer = new byte[1024];
+	        int bytesRead = -1;
+	        // write bytes read from the input stream into the output stream
+	        while ((bytesRead = inputStream.read(buffer)) != -1) {
+	            outStream.write(buffer, 0, bytesRead);
+	        }
+	        outStream.flush();
+	        inputStream.close();
+	        outStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		}
+	}
+	
+	
+	@RequestMapping("/team/getTeamInfo")
+	public void getTeamInfo() {
+		
+	}
+	
+	
+
+}

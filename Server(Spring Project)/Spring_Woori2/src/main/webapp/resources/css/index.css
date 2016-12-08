@@ -1,0 +1,96 @@
+@CHARSET "UTF-8";
+
+*{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	background-color: #292929;
+	width:960px;
+	margin:0px auto; /* auto 오른쪽 과 왼쪽을 균등하게 처리 */
+	color:#ffffff; /* 글자색 */
+	font-size: small;
+}
+
+hr{
+	border-width: 0px;
+	height: 0px;
+	border-top: 1px solid #707070;
+}
+
+a{
+	color: white;
+	text-decoration: none;
+}
+a:hover{
+	color: orange;
+	text-decoration: underline;	
+}
+/* ---------------------------------------------------------*/
+
+#content{
+	margin : 20px 0px;	
+}
+
+
+#contentLeft{
+	width : 220px;	
+	float :left;
+}
+#info{
+	border : 3px solid #707070;
+	border-radius: 5px;
+}
+#info1{
+	text-align: center;
+	color : orange;
+	padding : 10px;
+}
+#info2{
+	text-align: center;
+}
+#info2 table{
+	width : 100%;
+}
+
+#info2 table td{
+	width: 50%;
+	
+}
+
+#info2 table td:nth-last-of-type(1){
+	border-left: 1px solid #707070;
+}
+#info3{
+	text-align: center;
+	padding: 10px;	
+}
+
+#bookIndex {
+	border : 3px solid #707070;
+	margin-top: 10px;
+	border-radius: 5px;
+	overflow-y: auto;
+}
+.chapter{
+	margin: 5px;
+	padding: 5px;
+	color: aqua;
+}
+
+/* -------------------------------------------------------------------- */
+
+#contentCenter{
+	width : 715px;
+	float :left;
+	margin : 0px 10px;
+	border-width : 0px;
+}
+/* 남는 요소가 올라오지 못하게 float 속성 제거  */
+#footer{
+	clear:both;
+}
+#footer p{
+	margin-top: 10px;
+	text-align: center;
+}

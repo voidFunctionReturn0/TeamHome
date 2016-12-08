@@ -1,0 +1,273 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".actionbar.navi.teamInfo.TeamInfoFragment"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingBottom="15dp">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:id="@+id/imgViewTeamProfile"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/base_team" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/teamNameLayout"
+            android:layout_weight="1"
+            android:layout_below="@+id/imgViewTeamProfile"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTeamName"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Team Name"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:textColor="#003366"
+                android:layout_marginRight="10dp"
+                android:background="@null"/>
+
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btnCorrectTeamName"
+                android:background="@drawable/teaminfo_modify_icon"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/txtTeamName"
+                android:layout_toEndOf="@+id/txtTeamName"
+                android:layout_marginRight="10dp" />
+
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btnCancelUpdateTname"
+                android:background="@android:drawable/ic_delete"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/btnCorrectTeamName"
+                android:layout_toEndOf="@+id/btnCorrectTeamName" />
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/cameraImageButton"
+            android:background="@drawable/camera_icon"
+            android:layout_above="@+id/teamNameLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="-20dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/teamDescrLayout"
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hr1"
+            android:layout_marginTop="10dp">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="20px"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#BABABA"
+                android:layout_weight="10"></LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="20px"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <EditText
+                android:layout_width="254dp"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/txtTeamDescr"
+                android:background="@null"
+                android:text="Team description. 회색 얇은 글씨로 팀명보다 작게 출력해 주세요. 만약 팀소개가 없으면 hint로 Team description만 출력."
+                android:textColor="#BABABA"
+                android:textSize="13.5dp"
+                android:layout_below="@+id/hr1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp" />
+
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btnCorrectTeamDescr"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/teaminfo_modify_icon"
+                android:layout_marginRight="10dp" />
+
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btnCancelUpdateTdescr"
+                android:background="@android:drawable/ic_delete"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/btnCorrectTeamName"
+                android:layout_toEndOf="@+id/btnCorrectTeamName" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout5"
+        android:gravity="center_vertical|right"
+        android:weightSum="1" >
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hr"
+        android:gravity="center">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#BABABA"
+            android:layout_weight="5"
+            android:layout_marginRight="7dp"></LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/txtNumMember"
+            android:textColor="#BABABA"
+            android:textSize="13dp"
+            android:layout_marginRight="1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="명"
+            android:id="@+id/textView14"
+            android:textColor="#BABABA"
+            android:textSize="13dp"
+            android:layout_marginRight="7dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#BABABA"
+            android:layout_weight="5"></LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/memberListLayout"
+        android:layout_weight="4"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btnEditMember"
+                android:background="@drawable/teaminfo_modify_icon"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="23dp"
+                android:layout_marginEnd="23dp" />
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/membersListView"
+            android:layout_weight="4"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLayout"
+        android:gravity="center_vertical|end"
+        android:weightSum="1"
+        android:layout_marginRight="15dp">
+
+        <Button
+            android:layout_width="61dp"
+            android:layout_height="33dp"
+            android:text="@string/action_withdraw_team"
+            android:id="@+id/btnWithdraw"
+            android:background="#003366"
+            android:textColor="#ffffff"
+            android:layout_weight="0.02" />
+    </LinearLayout>
+
+</LinearLayout>

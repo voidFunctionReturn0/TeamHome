@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_team_Info">
+        <item
+            android:id="@+id/nav_team_Info"
+            android:icon="@drawable/teaminfo_icon"
+            android:title="@string/navi_item_teaminfo"
+            />
+    </group>
+    <group android:checkableBehavior="single"
+           android:id="@+id/menu_logout">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/login_icon"
+            android:title="Logout" />
+    </group>
+
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_member_Info">
+        <item
+            android:id="@+id/nav_member_Info"
+            android:icon="@drawable/member_setup_icon"
+            android:title="@string/nav_item_myinfo"
+          />
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_nav_home">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_icon"
+            android:title="홈으로" />
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_nav_out">
+        <item
+            android:id="@+id/nav_out"
+            android:icon="@drawable/home_icon"
+            android:title="회원탈퇴" />
+    </group>
+</menu>

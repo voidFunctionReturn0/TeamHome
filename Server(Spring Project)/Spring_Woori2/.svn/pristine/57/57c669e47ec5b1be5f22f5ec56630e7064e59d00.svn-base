@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NewsMapper">
+	<resultMap id="resultMap" type="com.mycompany.myapp.dto.News">
+		<result column="nid" property="nid"/>
+		<result column="mid" property="mid"/>
+		<result column="ndate" property="ndate"/>
+		<result column="ncontent" property="ncontent"/>
+		<result column="nphotoname" property="nphotoname"/>
+		<result column="ndataname" property="ndataname"/>
+		<result column="nisnotice" property="nisnotice"/>
+		<result column="tid" property="tid"/>
+	</resultMap>
+	
+	<select id="selectListByTid"
+			parameterType="_int" 
+			resultType="com.mycompany.myapp.dto.News"
+			resultMap="resultMap">
+		select * from  news where  tid = #{tid}	
+	</select>
+</mapper>

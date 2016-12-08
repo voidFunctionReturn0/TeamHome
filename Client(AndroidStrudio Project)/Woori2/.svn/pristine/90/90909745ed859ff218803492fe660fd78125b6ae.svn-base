@@ -1,0 +1,54 @@
+package com.example.myapplication.home;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
+
+/**
+ * Created by Administrator on 2016-07-08.
+ */
+public class CircleBitmap {
+    public Bitmap getCircleBitmap(Bitmap scaleBitmapImage, int radiusDp) {
+        int width = 0;
+        int height = 0;
+        int radius = (int)(radiusDp );
+        if(scaleBitmapImage.getWidth() / scaleBitmapImage.getHeight() < 1.0) {
+            width = radius * 2;
+            height =radius * 2 * scaleBitmapImage.getHeight()/scaleBitmapImage.getWidth();
+        } else {
+            width =radius * 2 * scaleBitmapImage.getWidth()/scaleBitmapImage.getHeight();
+            height = radius * 2;
+        }
+        Bitmap targetBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(targetBitmap);
+        Path path = new Path();
+        path.addCircle(width/2, height/2, radius, Path.Direction.CCW);
+        canvas.clipPath(path);
+
+        canvas.drawBitmap(
+                scaleBitmapImage,
+                new Rect(0, 0, scaleBitmapImage.getWidth(), scaleBitmapImage.getHeight()),
+                new Rect(0, 0, width, height),
+                null
+        );
+
+        return targetBitmap;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = 150;
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+}

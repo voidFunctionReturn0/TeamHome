@@ -1,0 +1,21 @@
+package com.mycompany.myapp.service;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dao.*;
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class MemberService {
+	
+	
+	@Autowired
+	private MemberDao memberDao;
+	
+	public Member getMember(String mid, String mpwd){
+		Member member = null;
+		member = memberDao.selectByPk(mid);
+		return member;
+	}
+}

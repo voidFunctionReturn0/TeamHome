@@ -1,0 +1,70 @@
+package com.mycompany.myapp.dto;
+
+public class Schedule {
+	
+	private int sid;
+	private String sname;
+	private String sicon;
+	private String sstartdate; // 연-월-일
+	private String senddate; // 연-월-일
+	private String stime; // 시:분
+	private String sdescr;
+	private String slocation;
+	private int tid;
+	
+	public String getSlocation() {
+		return slocation;
+	}
+	public void setSlocation(String slocation) {
+		this.slocation = slocation;
+	}
+	
+	public int getSid() {
+		return sid;
+	}
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+	public String getSname() {
+		return sname;
+	}
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+	public String getSicon() {
+		return sicon;
+	}
+	public void setSicon(String sicon) {
+		this.sicon = sicon;
+	}
+	public String getSstartdate() {
+		return sstartdate;
+	}
+	public void setSstartdate(String sstartdate) {
+		this.sstartdate = sstartdate;
+	}
+	public String getSenddate() {
+		return senddate;
+	}
+	public void setSenddate(String senddate) {
+		this.senddate = senddate;
+	}
+	public String getStime() {
+		return stime;
+	}
+	public void setStime(String stime) {
+		this.stime = stime;
+	}
+	public String getSdescr() {
+		return sdescr;
+	}
+	public void setSdescr(String sdescr) {
+		this.sdescr = sdescr;
+	}
+	public int getTid() {
+		return tid;
+	}
+	public void setTid(int tid) {
+		this.tid = tid;
+	}
+}

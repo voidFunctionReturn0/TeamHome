@@ -1,0 +1,67 @@
+package com.mycompany.myapp.controller.teammain;
+
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class PhotoController {
+	
+	@Autowired
+	private PhotoService photoService;
+	
+	@RequestMapping("/team/photo/list")
+	public void DataList(int tid, HttpServletResponse response) {
+		List<News> photoList = photoService.getPhotoList(tid);
+		JSONObject root = new JSONObject();
+		if((photoList==null)|(photoList.size()==0)) {
+			root.put("getPhotoListResult", "fail");
+		}else {
+			root.put("getPhotoListResult", "success");
+			JSONArray list = new JSONArray();
+			for(News news:photoList) {
+				JSONObject photoJson = new JSONObject();
+				photoJson.put("nid", news.getNid());
+				photoJson.put("mid", news.getMid());
+				photoJson.put("mprofile", news.getMprofile() != null?news.getMprofile():"");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				photoJson.put("ndate", sdf.format(news.getNdate()));
+				photoJson.put("ncontent", news.getNcontent());
+				photoJson.put("nphotoname", news.getNphotoname()!=null?news.getNphotoname():"");
+				photoJson.put("ndataname", news.getNdataname() != null?news.getNdataname():"");
+				photoJson.put("nisnotice", news.getNisnotice());
+				photoJson.put("tid", news.getTid());
+				list.put(photoJson);
+			}
+			root.put("photoList", list);			
+		}
+		
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	
+	}
+	
+	
+}

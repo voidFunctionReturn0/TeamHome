@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="2dp"
+            android:id="@+id/dataMemberImageView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="날짜"
+            android:id="@+id/dataDateTextView"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#AAAAAA"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnDownData"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/teamhome_data_icon"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:text="대끼"
+            android:id="@+id/dataNameTextView"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#003366"
+            android:layout_weight="2" />
+
+        <!-- <TextView
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:text="내용"
+             android:id="@+id/dataContentTextView"
+             android:gravity="center_vertical"
+             android:textStyle="bold"
+             android:textColor="#003366"
+             android:layout_weight="9" />-->
+
+    </LinearLayout>
+
+</LinearLayout>

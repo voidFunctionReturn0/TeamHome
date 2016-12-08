@@ -1,0 +1,147 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.myapplication.login.LoginFragment"
+    android:orientation="vertical"
+    android:background="#003366">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/imageView3"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/logo"
+            android:layout_weight="2"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="40dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="4">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="50dp"
+                android:textAlignment="center">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/imageView2"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/login_user_icon" />
+
+                <EditText
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtId"
+                    android:layout_marginLeft="40dp"
+                    android:hint="username"
+                    android:textColorHint="#FFC0C0C0"
+                    android:maxLength="15"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/imageView4"
+                    android:background="@drawable/login_pass_icon" />
+
+                <EditText
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtPwd"
+                    android:layout_marginLeft="40dp"
+                    android:hint="userpassword"
+                    android:inputType="textPassword"
+                    android:textColorHint="#FFC0C0C0"
+                    android:maxLength="18"
+                    android:textColor="#ffffff"
+                    android:layout_gravity="top"
+                    android:textAlignment="center" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnJoin"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_sign"
+                    android:layout_marginLeft="20dp" />
+
+                <Space
+                    android:layout_width="25dp"
+                    android:layout_height="20px" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnLogin"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_login"
+                    android:layout_marginRight="20dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

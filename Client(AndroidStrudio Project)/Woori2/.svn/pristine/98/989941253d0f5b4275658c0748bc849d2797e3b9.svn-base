@@ -1,0 +1,368 @@
+package com.example.myapplication;
+
+import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Switch;
+
+import com.example.myapplication.actionbar.ChattingFragment;
+import com.example.myapplication.actionbar.calendar.CalendarFragment;
+import com.example.myapplication.actionbar.navi.MyInfoFragment;
+import com.example.myapplication.actionbar.navi.teamInfo.TeamInfoFragment;
+import com.example.myapplication.actionbar.search.SearchingFragment;
+import com.example.myapplication.dto.Member;
+import com.example.myapplication.dto.Schedule;
+import com.example.myapplication.home.HomeFragment;
+import com.example.myapplication.login.LoginFragment;
+import com.example.myapplication.network.Network4;
+import com.example.myapplication.team.TeamHomeFragment;
+
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+    public static Member member;
+    public static int tid;
+    public static ActionBarDrawerToggle toggle;
+    private MenuItem action_search;
+    private MenuItem action_chatting;
+    private MenuItem action_teamhome;
+    private MenuItem action_calendar;
+    private MenuItem action_inbox;
+
+    // 일정추가에 시작날짜로 지정될 날짜
+    public static String startDate;
+
+
+    public static String presentFragment;
+
+    public static Schedule selectedSchedule;
+
+    public static ImageView navProfile;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        //화면 회전방지
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        member = new Member();
+        member.setMid("1");
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        navProfile = (ImageView) findViewById(R.id.navProfile);
+        setSupportActionBar(toolbar);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED );
+        toggle.syncState();
+
+
+
+
+        int[][] state = new int[][] {
+                new int[] {-android.R.attr.state_enabled}, // disabled
+                new int[] {android.R.attr.state_enabled}, // enabled
+                new int[] {-android.R.attr.state_checked}, // unchecked
+                new int[] { android.R.attr.state_pressed}  // pressed
+
+        };
+
+        int[] color = new int[] {
+                Color.WHITE,
+                Color.WHITE,
+                Color.WHITE,
+                Color.WHITE
+        };
+
+        ColorStateList csl = new ColorStateList(state, color);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
+        navigationView.setItemTextColor(csl);
+
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, new LoginFragment())
+                .commit();
+
+       /* MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_team_Info);
+        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
+        spanString.setSpan(new ForegroundColorSpan(Color.GREEN), 0, spanString.length(), 0); // fix the color to white
+        menuItem.setTitle(spanString);*/
+
+        Switch widgetSwitch = new Switch(this);
+
+       // menuItem.setActionView(widgetSwitch);
+}
+
+    @Override
+    public void onBackPressed() {
+        Log.i("mylog","1");
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle("앱을 종료 하시겠습니까?")
+            .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+
+            }).setPositiveButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            }).create().show();
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        action_search = menu.findItem(R.id.action_search);
+        action_inbox = menu.findItem(R.id.action_inbox);
+        action_chatting = menu.findItem(R.id.action_chatting);
+        action_teamhome = menu.findItem(R.id.action_teamhome);
+        action_calendar = menu.findItem(R.id.action_calendar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        action_search.setVisible(false);
+        action_inbox.setVisible(false);
+        action_chatting.setVisible(false);
+        action_teamhome.setVisible(false);
+        action_calendar.setVisible(false);
+        getSupportActionBar().setTitle("로그인");
+
+        if(presentFragment!=null) {
+            if (presentFragment.equals("HomeFragment")) {
+                action_search.setVisible(true);
+                action_inbox.setVisible(true);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(false);
+                action_calendar.setVisible(false);
+                getSupportActionBar().setTitle("TeamHome");
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED );
+            }else if(presentFragment.equals("JoinFragment")){
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(false);
+                action_calendar.setVisible(false);
+                getSupportActionBar().setTitle("회원가입");
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED );
+            }else if(presentFragment.equals("LoginFragment")){
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(false);
+                action_calendar.setVisible(false);
+                getSupportActionBar().setTitle("로그인");
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED );
+
+            }else if(presentFragment.equals("LoginFragment")) {
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(false);
+                action_calendar.setVisible(false);
+                getSupportActionBar().setTitle("로그인");
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED );
+            }else if(presentFragment.equals("TeamInfoFragment")) {
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(true);
+                action_calendar.setVisible(true);
+                getSupportActionBar().setTitle("팀정보");
+            }else if(presentFragment.equals("MyInfoFragment")) {
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(false);
+                action_calendar.setVisible(false);
+                getSupportActionBar().setTitle("회원정보수정");
+            }else if(presentFragment.equals("TeamHomeFragment")) {
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(true);
+                action_calendar.setVisible(true);
+                getSupportActionBar().setTitle("");
+            }else if(presentFragment.equals("CalendarFragment")) {
+                action_search.setVisible(false);
+                action_inbox.setVisible(false);
+                action_chatting.setVisible(false);
+                action_teamhome.setVisible(true);
+                action_calendar.setVisible(false);
+                getSupportActionBar().setTitle("일정");
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_teamhome) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new TeamHomeFragment())
+                    .commit();
+            MainActivity.presentFragment = "TeamHomeFragment";
+            invalidateOptionsMenu();
+            return true;
+        }
+        else if(id == R.id.action_calendar){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new CalendarFragment())
+                    .commit();
+            MainActivity.presentFragment = "CalendarFragment";
+            invalidateOptionsMenu();
+            Log.i("myinfo",MainActivity.tid +"");
+            return true;
+
+        }
+        else if(id == R.id.action_chatting){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new ChattingFragment())
+                    .commit();
+            getSupportActionBar().setTitle("채팅");
+            return true;
+
+        }
+       /* else if(id == R.id.action_inbox){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new InboxFragment())
+                    .commit();
+            getSupportActionBar().setTitle("알람");
+            return true;
+        }*/
+        else if(id == R.id.action_search){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new SearchingFragment())
+                    .commit();
+            getSupportActionBar().setTitle("검색");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_team_Info) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new TeamInfoFragment())
+                    .commit();
+            MainActivity.presentFragment = "TeamInfoFragment";
+            invalidateOptionsMenu();
+
+        } else if (id == R.id.nav_logout) {
+
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle("로그아웃 하시겠습니까?").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    member = null;
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainer, new LoginFragment())
+                            .commit();
+                    MainActivity.presentFragment = "LoginFragment";
+                    invalidateOptionsMenu();
+                }
+            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            }).create().show();
+
+
+
+/*            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new LogoutFragment())
+                    .commit();*/
+
+        } else if (id == R.id.nav_member_Info) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new MyInfoFragment())
+                    .commit();
+            MainActivity.presentFragment = "MyInfoFragment";
+            invalidateOptionsMenu();
+        } else if (id == R.id.nav_home) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new HomeFragment())
+                    .commit();
+            MainActivity.presentFragment = "HomeFragment";
+            invalidateOptionsMenu();
+        }else if(id == R.id.nav_out){
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle("회원 탈퇴 하시겠습니까?").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Network4.out(member);
+                    member = null;
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainer, new LoginFragment())
+                            .commit();
+                    MainActivity.presentFragment = "LoginFragment";
+                    invalidateOptionsMenu();
+                }
+            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            }).create().show();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+        //김민수 강영준
+    }
+}

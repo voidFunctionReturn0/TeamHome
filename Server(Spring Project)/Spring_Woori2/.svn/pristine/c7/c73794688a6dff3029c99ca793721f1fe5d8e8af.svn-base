@@ -1,0 +1,22 @@
+package com.mycompany.myapp.service;
+
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dao.*;
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class NewsService {
+	
+	@Autowired
+	private CommentDao commentDao;
+	
+	public List<Newscomment> getCommentListByNid(int nid) {
+		
+		return commentDao.selectListByNid(nid);
+	}
+
+}

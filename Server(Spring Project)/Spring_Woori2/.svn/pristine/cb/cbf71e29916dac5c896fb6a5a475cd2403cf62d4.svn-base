@@ -1,0 +1,70 @@
+package com.mycompany.myapp.controller;
+
+import java.io.*;
+import java.util.*;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mycompany.myapp.dto.Schedule;
+import com.mycompany.myapp.service.ScheduleService;
+
+@Controller
+public class ScheduleController {
+	
+	@Autowired
+	private ScheduleService scheduleService;
+	
+	@SuppressWarnings("deprecation")
+	@RequestMapping("/schedule/getListByTid")
+	public void getList(HttpServletResponse response, int tid, String sdate) {
+		try {
+			// 문자열 date를 Calendar클래스로 변환
+			String[] strArr = sdate.split("-");
+			java.sql.Date date = new java.sql.Date(Integer.parseInt(strArr[0]), Integer.parseInt(strArr[1]), Integer.parseInt(strArr[2]));
+			
+			
+			// tid에 해당하는 일정 리스트를 DB에서 가져오기
+			List<Schedule> schedules = scheduleService.getListByTid(tid);
+			
+			// Date에 해당하는 리스트 거르기
+			List<Schedule> schedulesByDate = new ArrayList<>();
+			for(Schedule s : schedules) {
+				
+			}
+						
+			// tid에 해당하는 일정이 있으면 JSONArray로 변환하기
+			if(schedules != null) {
+				JSONArray schedulesJSON = new JSONArray();
+				
+				for(Schedule s : schedules) {
+					// 각 일정을 JSONObject로 변환해서 JSONArray에 넣기
+					JSONObject sJSON = new JSONObject();
+					sJSON.put("sid", s.getSid());
+					sJSON.put("sname", s.getSname());
+					sJSON.put("sicon", s.getSicon());
+					sJSON.put("sstartdate", s.getSstartdate());
+					sJSON.put("senddate", s.getSenddate());
+					sJSON.put("stime", new java.util.Date(s.getStime().getTime()).toString());
+					sJSON.put("sdescr", s.getSdescr());
+					sJSON.put("tid", s.getTid());
+					
+					schedulesJSON.put(sJSON);
+				}
+				
+				
+				
+				
+				// 응답Http 본문에 List를 추가하기
+				OutputStream os = response.getOutputStream();
+				os.write(schedulesJSON.toString().getBytes());
+				os.flush();
+				os.close();
+			}			
+		} catch(IOException e) { e.printStackTrace(); }
+	}
+}

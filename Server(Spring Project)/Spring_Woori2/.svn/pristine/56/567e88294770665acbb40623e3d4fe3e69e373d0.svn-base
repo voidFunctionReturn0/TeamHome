@@ -1,0 +1,18 @@
+package com.mycompany.myapp.dao;
+
+import org.mybatis.spring.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.mycompany.myapp.dto.*;
+
+@Component
+public class MemberDao {
+
+	@Autowired
+	private SqlSessionTemplate sst;
+	
+	public Member selectByPk(String mid){
+		return sst.selectOne("MemberMapper.selectByPk",mid);
+	}
+}

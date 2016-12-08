@@ -1,0 +1,138 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.myapplication.team.news.AddNewsFragment"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/topLayout"
+        android:layout_weight="1">
+        <MultiAutoCompleteTextView
+            android:windowSoftInputMode="adjustResize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/addNewsMultiTextView"
+            android:layout_weight="1"
+            android:maxLines="10"
+            android:maxHeight="50dp"
+            android:hint="  글을 쓰려면 터치해 주세요"
+            android:tag="add_news"
+            android:background="@null"
+            android:gravity="top"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/btnPlus"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/btn_addnews_attach" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/photoAndFileLayout"
+        android:gravity="center_vertical|center_horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            android:background="#00ff00">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:background="#ffff00">
+
+                <Button
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:id="@+id/btnAddAttachPhoto"
+                    android:background="@drawable/btn_addnews_photo"
+                    android:layout_gravity="center_vertical"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/btnCancelPhoto"
+                    android:background="@android:drawable/ic_delete"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/btnAddAttachPhoto"
+                    android:layout_alignEnd="@+id/btnAddAttachPhoto" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_below="@+id/btnAddAttachPhoto"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/txtAttachPhotoName"
+                    android:maxWidth="130dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:orientation="vertical"
+            android:background="#ff0000">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000ff">
+
+                <Button
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:id="@+id/btnAddAttachFile"
+                    android:background="@drawable/btn_addnews_file"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp" />
+
+                <Button
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/btnCancelFile"
+                    android:background="@android:drawable/ic_delete"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/btnAddAttachFile"
+                    android:layout_alignEnd="@+id/btnAddAttachFile" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtAttachFileName"
+                    android:layout_below="@+id/btnAddAttachFile"
+                    android:layout_centerHorizontal="true"
+                    android:maxWidth="130dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

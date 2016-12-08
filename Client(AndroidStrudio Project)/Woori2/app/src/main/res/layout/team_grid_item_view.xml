@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/team_grid_imageView"
+        android:longClickable="false"
+
+        android:scaleType="fitXY"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/team_grid_item_txtTname"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="17dp"
+        android:textColor="#003366"
+        android:layout_marginTop="7dp" />
+
+    <View android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="#8d8e8d"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/team_grid_item_txtTdescr"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+</LinearLayout>

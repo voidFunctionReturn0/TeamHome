@@ -1,0 +1,64 @@
+package com.mycompany.myapp.dto;
+
+import java.sql.*;
+
+public class Schedule {
+	
+	private int sid;
+	private String sname;
+	private String sicon;
+	private Date sstartdate;
+	private Date senddate;
+	private Date stime;
+	private String sdescr;
+	private int tid;
+	
+	public int getSid() {
+		return sid;
+	}
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+	public String getSname() {
+		return sname;
+	}
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+	public String getSicon() {
+		return sicon;
+	}
+	public void setSicon(String sicon) {
+		this.sicon = sicon;
+	}
+	public Date getSstartdate() {
+		return sstartdate;
+	}
+	public void setSstartdate(Date sstartdate) {
+		this.sstartdate = sstartdate;
+	}
+	public Date getSenddate() {
+		return senddate;
+	}
+	public void setSenddate(Date senddate) {
+		this.senddate = senddate;
+	}
+	public Date getStime() {
+		return stime;
+	}
+	public void setStime(Date stime) {
+		this.stime = stime;
+	}
+	public String getSdescr() {
+		return sdescr;
+	}
+	public void setSdescr(String sdescr) {
+		this.sdescr = sdescr;
+	}
+	public int getTid() {
+		return tid;
+	}
+	public void setTid(int tid) {
+		this.tid = tid;
+	}
+}

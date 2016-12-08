@@ -1,0 +1,68 @@
+package com.mycompany.myapp.controller.team;
+
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class NewsController {
+	
+	@Autowired
+	private NewsService newsService;
+	
+	@RequestMapping("/team/news/commentList")
+	public void commentList(int nid, HttpServletResponse response) {
+		System.out.println(nid);
+		List<Newscomment> commentlist = newsService.getCommentListByNid(nid);
+		String mimeType = "application/json";
+		response.setContentType(mimeType);
+		
+		JSONObject root = new JSONObject();
+		if((commentlist==null)||(commentlist.size()==0)) {
+			root.put("commentResult", "fail");
+		}else {
+			root.put("commentResult", "success");
+			JSONArray commentArray = new JSONArray();
+			for(Newscomment comment:commentlist) {
+				JSONObject commentJson = new JSONObject();
+				commentJson.put("cid", comment.getCid());
+				commentJson.put("ccontent", comment.getCcontent()!= null?comment.getCcontent():"");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				commentJson.put("cdate", sdf.format(comment.getCdate()));
+				commentJson.put("nid", comment.getNid());
+				commentJson.put("mid", comment.getMid());				
+				commentJson.put("mprofile", comment.getMprofile() != null?comment.getMprofile():"");
+				commentArray.put(commentJson);
+				System.out.println(commentJson);
+			}
+			root.put("list", commentArray);
+		}
+		
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+}

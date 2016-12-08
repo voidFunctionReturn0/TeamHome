@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TeamMapper">
+	<resultMap id="resultMap" type="com.mycompany.myapp.dto.Teams">
+		<result column="tname" property="tname"/>
+		<result column="mid" property="mid"/>
+		<result column="tprofile" property="tprofile"/>
+		<result column="tdescr" property="tdescr"/>
+		<result column="tid" property="tid"/>
+	</resultMap>
+	<resultMap id="resultMapJoinNum" type="com.mycompany.myapp.dto.Teams">
+		<result column="tname" property="tname"/>
+		<result column="mid" property="mid"/>
+		<result column="tprofile" property="tprofile"/>
+		<result column="tdescr" property="tdescr"/>
+		<result column="tid" property="tid"/>
+		<result column="tnum" property="tnum"/>
+		<result column="isjoin" property="isJoin"/>
+	</resultMap>
+	
+	<select id="selectByTid" parameterType="int" resultType="com.mycompany.myapp.dto.Teams" resultMap="resultMap">
+		select tname, mid, tprofile, tdescr, tid from teams where tid = #{tid}
+	</select>
+		
+	<select id="selectListByMid"
+			parameterType="String" 
+			resultType="com.mycompany.myapp.dto.Teams"
+			resultMap="resultMap">
+		select tname , mid  , tprofile , tdescr , tid  
+		from  teams
+		where  tid in ( select tm.tid 
+			from team_member tm
+			where tm.mid = #{mid} )	
+	</select>
+	<select id="selectListByKeyword"
+			parameterType="map"
+			resultType="com.mycompany.myapp.dto.Teams"
+			resultMap="resultMapJoinNum">
+		
+	  select t.tid, t.tname, t.tdescr, t.mid, t.tprofile, c.tnum 
+	  , case when #{mid} in (select mid from team_member where tid = t.tid) then 1 else 0 end as isjoin 
+	  from ( select tid, count(mid) as tnum  
+	    from team_member
+	    group by tid
+	    order by tnum desc) c, teams t 
+	  where c.tid = t.tid and (
+	    tname like #{keyword} or 
+	    tdescr like #{keyword}  or
+	    mid like #{keyword}
+	  ) 
+
+	</select>	
+	
+	<insert id="insert" parameterType="com.mycompany.myapp.dto.Teams">
+  	  <selectKey keyProperty="tid" resultType="int" order="AFTER">
+  	  	select seq_teams_tid.currval from dual
+  	  </selectKey>
+	  insert into teams (tid ,tname ,mid ,tprofile ,tdescr)
+	  values (seq_teams_tid.nextval, #{tname}, #{mid},#{tprofile, jdbcType=VARCHAR}, #{tdescr})
+  </insert>
+  
+  <insert id="insert2" parameterType="com.mycompany.myapp.dto.TeamMember">
+	  insert into team_member (tid ,mid)
+	  values (#{tid}, #{mid})
+  </insert>
+  
+  <resultMap id="resultMapMember" type="com.mycompany.myapp.dto.Member" >
+		<result column="mid" property="mid"/>
+  		<result column="mpwd" property="mpwd"/>
+  		<result column="mprofile" property="mprofile"/>
+  		<result column="mbirth" property="mbirth"/>
+	</resultMap>
+
+ 	<select id="selectTeamMemberListByTid" 
+ 		 parameterType="int" 
+ 		 resultType="com.mycompany.myapp.dto.Member" 
+ 		 resultMap="resultMapMember">
+  		select mid, mpwd, mprofile, mbirth, tid
+		from(
+		select m.mid, m.mpwd, m.mprofile, m.mbirth, tm.tid
+		from members m, team_member tm
+		where m.mid = tm.mid)
+		where tid = #{tid}
+  	</select>
+  	
+  	<delete id="deleteTeamMember" parameterType="map">
+  		delete from team_member where mid = #{mid} and tid = #{tid}	
+  	</delete>
+	
+</mapper>

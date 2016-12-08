@@ -1,0 +1,82 @@
+package com.example.myapplication.team.news;
+
+import java.util.Date;
+
+/**
+ * Created by Administrator on 2016-07-06.
+ */
+public class News {
+    private int nid;
+    private String teams_tname;
+    private String members_mid;
+    private Date ndate;
+    private String ncontent;
+    private int nphotoname;
+    private String ndataname;
+
+    public News(int nid, String teams_tname, String members_mid, Date ndate, String ncontent, int nphotoname, String ndataname) {
+        this.nid = nid;
+        this.teams_tname = teams_tname;
+        this.members_mid = members_mid;
+        this.ndate = ndate;
+        this.ncontent = ncontent;
+        this.nphotoname = nphotoname;
+        this.ndataname = ndataname;
+    }
+
+    public int getNid() {
+        return nid;
+    }
+
+    public void setNid(int nid) {
+        this.nid = nid;
+    }
+
+    public String getTeams_tname() {
+        return teams_tname;
+    }
+
+    public void setTeams_tname(String teams_tname) {
+        this.teams_tname = teams_tname;
+    }
+
+    public String getMembers_mid() {
+        return members_mid;
+    }
+
+    public void setMembers_mid(String members_mid) {
+        this.members_mid = members_mid;
+    }
+
+    public Date getNdate() {
+        return ndate;
+    }
+
+    public void setNdate(Date ndate) {
+        this.ndate = ndate;
+    }
+
+    public String getNcontent() {
+        return ncontent;
+    }
+
+    public void setNcontent(String ncontent) {
+        this.ncontent = ncontent;
+    }
+
+    public int getNphotoname() {
+        return nphotoname;
+    }
+
+    public void setNphotoname(int nphotoname) {
+        this.nphotoname = nphotoname;
+    }
+
+    public String getNdatename() {
+        return ndataname;
+    }
+
+    public void setNdatename(String ndataname) {
+        this.ndataname = ndataname;
+    }
+}

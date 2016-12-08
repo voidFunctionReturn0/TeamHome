@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.myapplication.NewsFragment"
+    android:background="#E0E6Ec">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/newsListView"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:dividerHeight="20dp"
+        android:divider="#E0E6Ec"
+        android:paddingTop="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공지사항"
+        android:id="@+id/btnNotice"
+        android:layout_gravity="right|top"
+        android:nestedScrollingEnabled="false" />
+
+
+
+</FrameLayout>

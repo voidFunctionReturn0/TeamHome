@@ -1,0 +1,183 @@
+package com.example.myapplication.team.news;
+
+
+import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
+import com.example.myapplication.dto.News;
+import com.example.myapplication.network.Network1;
+
+import java.text.SimpleDateFormat;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class DetailNewsFragment extends Fragment {
+    private News news;
+    private ImageView detailNewsMemberImageView;
+    private TextView detailNewsMemberName;
+    private TextView detailNewsDate;
+    private TextView detailNewsContent;
+    private int detailNewsFragmentId;
+    private CommentItemViewAdapter commentItemViewAdapter;
+    private ListView commentListView;
+    private EditText detailNewsEditText;
+    private Button btnWriteComment;
+    private Button btnModifyNews;
+    private Button btnDeleteNews;
+    private ImageView newsImageView;
+    private LinearLayout detailNewsDataLayout;
+    private TextView detailNewsDataName;
+    private TextView detailNewsDataSize;
+    private Button btnDownData;
+    private TextView detailNewsCommentNo;
+    private CoordinatorLayout.LayoutParams invisibleParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
+
+    //상세화면 중 위의 사진부분 레이아웃
+    private android.support.design.widget.AppBarLayout app_bar;
+    private android.support.design.widget.CollapsingToolbarLayout toolbar_layout;
+
+
+    public void setNews(News news) {
+        this.news=news;
+    }
+
+
+    public DetailNewsFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        detailNewsFragmentId = this.getId();
+
+
+        View view = inflater.inflate(R.layout.fragment_detail_news, container, false);
+
+        //각 view들 매핑
+        detailNewsMemberImageView = (ImageView) view.findViewById(R.id.detailNewsMemberImageView);
+        detailNewsMemberName = (TextView) view.findViewById(R.id.detailNewsMemberName);
+        detailNewsDate = (TextView) view.findViewById(R.id.detailNewsDate);
+        detailNewsContent = (TextView) view.findViewById(R.id.detailNewsContent);
+        detailNewsEditText = (EditText) view.findViewById(R.id.detailNewsEditText);
+        newsImageView = (ImageView)view.findViewById(R.id.newsImageView);
+
+        //뉴스
+        btnModifyNews = (Button) view.findViewById(R.id.btnModifyNews);
+        btnDeleteNews = (Button) view.findViewById(R.id.btnDeleteNews);
+
+        //데이터 레이아웃
+        detailNewsDataLayout = (LinearLayout) view.findViewById(R.id.detailNewsDataLayout);
+        detailNewsDataName = (TextView) view.findViewById(R.id.detailNewsDataName);
+        btnDownData = (Button) view.findViewById(R.id.btnDownData);
+
+        //댓글
+        btnWriteComment = (Button) view.findViewById(R.id.btnWriteComment);
+        detailNewsCommentNo = (TextView) view.findViewById(R.id.detailNewsCommentNo);
+
+
+
+        //tablayout의 사진을 넣기 위한
+        toolbar_layout = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_layout);
+        app_bar = (AppBarLayout) view.findViewById(R.id.app_bar);
+
+
+        //로그인 멤버와 소식 글쓴이의 일치 여부 판단
+        if(MainActivity.member.getMid().equals(news.getMid())) {
+            btnModifyNews.setVisibility(View.VISIBLE);
+            btnDeleteNews.setVisibility(View.VISIBLE);
+        }
+
+
+        //소식 정보 표시
+        Network1.getBitmap(news.getMprofile(), detailNewsMemberImageView);
+        if(news.getNphotoname().equals("")) {
+            app_bar.setLayoutParams(invisibleParams);
+        }else {
+            Network1.getBitmap("photo/" + news.getNphotoname(), toolbar_layout);
+        }
+        detailNewsMemberName.setText(news.getMid());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        detailNewsDate.setText(sdf.format(news.getNdate()));
+        detailNewsContent.setText(news.getNcontent());
+
+        //데이터 없을 시
+        if(news.getNdataname().equals("")) {
+            detailNewsDataLayout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        }else {
+            detailNewsDataName.setText(news.getNdataname());
+
+            btnDownData.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Network1.downloadData(news.getNdataname(), getContext());
+                }
+            });
+        }
+        Network1.getTotalCommentNo(news.getNid(), detailNewsCommentNo);
+
+
+
+
+        //소식 댓글 표시
+        commentListView = (ListView)view.findViewById(R.id.commentListView);
+        commentItemViewAdapter = new CommentItemViewAdapter(view.getContext());
+        commentItemViewAdapter.setFragment(getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId));
+        Network1.getCommentList(news.getNid(), getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId), commentItemViewAdapter);
+        commentListView.setAdapter(commentItemViewAdapter);
+
+
+
+        //댓글 등록
+        btnWriteComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Network1.writeComment(detailNewsEditText.getText().toString(), news.getNid(), getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId));
+            }
+        });
+
+        btnDeleteNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Network1.deleteNews(news.getNid(), getActivity().getSupportFragmentManager().findFragmentById(detailNewsFragmentId));
+            }
+        });
+
+
+        btnModifyNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ModifyNewsFragment modifyNewsFragment = new ModifyNewsFragment();
+                modifyNewsFragment.setNews(news);
+
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, modifyNewsFragment)
+                        .commit();
+            }
+        });
+
+        return view;
+    }
+
+
+}

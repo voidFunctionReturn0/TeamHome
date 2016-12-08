@@ -1,0 +1,65 @@
+package com.mycompany.myapp.dto;
+
+import java.sql.*;
+
+public class News {
+	
+	private int nid;
+	private String tname;
+	private String mid;
+	private Date ndate;
+	private String ncontent;
+	private String nphotoname;
+	private String ndataname;
+	private int nisnotice;//0=f 1=t
+	
+	public int getNid() {
+		return nid;
+	}
+	public void setNid(int nid) {
+		this.nid = nid;
+	}
+	public String getTname() {
+		return tname;
+	}
+	public void setTname(String tname) {
+		this.tname = tname;
+	}
+	public String getMid() {
+		return mid;
+	}
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
+	public Date getNdate() {
+		return ndate;
+	}
+	public void setNdate(Date ndate) {
+		this.ndate = ndate;
+	}
+	public String getNcontent() {
+		return ncontent;
+	}
+	public void setNcontent(String ncontent) {
+		this.ncontent = ncontent;
+	}
+	public String getNphotoname() {
+		return nphotoname;
+	}
+	public void setNphotoname(String nphotoname) {
+		this.nphotoname = nphotoname;
+	}
+	public String getNdataname() {
+		return ndataname;
+	}
+	public void setNdataname(String ndataname) {
+		this.ndataname = ndataname;
+	}
+	public int getNisnotice() {
+		return nisnotice;
+	}
+	public void setNisnotice(int nisnotice) {
+		this.nisnotice = nisnotice;
+	}
+	
+}

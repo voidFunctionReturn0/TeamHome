@@ -1,0 +1,172 @@
+package com.mycompany.myapp.controller;
+
+import java.io.*;
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class TeamController {
+
+	@Autowired
+	private TeamService teamService;
+	
+	@RequestMapping("/team/addteam")
+	public String addteam(String tname, String tdescr,String mid) {
+		
+		System.out.println(tname);
+		System.out.println(tdescr);
+		System.out.println(mid);
+		
+		Teams team = new Teams();
+		team.setTname(tname);
+		team.setTdescr(tdescr);
+		team.setMid(mid);
+		//team.setTprofile("");
+		teamService.write(team);
+		
+		return "team/addteam";
+	}
+	
+	@RequestMapping("/team/search")
+	public void search(String keyword, HttpServletResponse response){
+		List<Teams> teamList = teamService.getTeamListByKeyword(keyword);
+		
+		String mimeType = "application/json";
+		//헤더행 추가
+		response.setContentType(mimeType);
+			
+		// 본문에 파일 데이터 출력	
+		JSONObject root = new JSONObject();
+		if(teamList == null || teamList.size() == 0){
+			root.put("result", "fail");
+		}else{
+			root.put("result", "success");
+		}
+		
+		JSONArray array = new JSONArray();		
+		for(Teams team : teamList){
+			JSONObject data = new JSONObject();
+			data.put("tid", String.valueOf( team.getTid() ) );
+			data.put("tname", team.getTname());
+			data.put("tdescr", team.getTdescr());
+			data.put("mid", team.getMid());
+			data.put("tprofile", team.getTprofile());
+			data.put("tnum", String.valueOf( team.getTnum() ) );
+			array.put(data);
+		}
+		root.put("list", array);
+		System.out.println(root.toString());
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping("/team/list")
+	public void list(String mid, HttpServletResponse response){
+		List<Teams> teamList = teamService.getTeamListByMid(mid);
+
+		String mimeType = "application/json";
+		//헤더행 추가
+		response.setContentType(mimeType);
+			
+		// 본문에 파일 데이터 출력	
+		JSONObject root = new JSONObject();
+		if(teamList == null || teamList.size() == 0){
+			root.put("result", "fail");
+		}else{
+			root.put("result", "success");
+		}
+		
+		JSONArray array = new JSONArray();		
+		for(Teams team : teamList){
+			JSONObject data = new JSONObject();
+			data.put("tid", String.valueOf( team.getTid() ) );
+			data.put("tname", team.getTname());
+			data.put("tdescr", team.getTdescr());
+			data.put("mid", team.getMid());
+			data.put("tprofile", team.getTprofile());
+			array.put(data);
+		}
+		root.put("list", array);
+	
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	
+	//소식 리스트 얻기
+	@RequestMapping("/team/news/list")
+	public void newsList(int tid, HttpServletResponse response) {
+		List<News> list = teamService.getNewsListByTid(tid);
+		String mimeType = "application/json";
+		response.setContentType(mimeType);
+		
+		JSONObject root = new JSONObject();
+		if((list==null)||(list.size()==0)) {
+			root.put("newsResult", "fail");
+		}else {
+			root.put("newsResult", "success");
+			JSONArray newsArray = new JSONArray();
+			for(News news:list) {
+				JSONObject newsJson = new JSONObject();
+				newsJson.put("nid", news.getNid());
+				newsJson.put("mid", news.getNid());
+				newsJson.put("ndate", news.getNid());
+				newsJson.put("ncontent", news.getNid());
+				newsJson.put("nphotoname", news.getNid());
+				newsJson.put("ndataname", news.getNid());
+				newsJson.put("nisnotice", news.getNid());
+				newsJson.put("tid", news.getNid());
+				newsArray.put(newsJson);
+			}
+			root.put("list", newsArray);
+		}
+		
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+	}
+}

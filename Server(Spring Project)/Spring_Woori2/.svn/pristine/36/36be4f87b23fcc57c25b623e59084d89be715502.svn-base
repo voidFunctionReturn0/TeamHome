@@ -1,0 +1,127 @@
+package com.mycompany.myapp.controller.teammain;
+
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+import org.json.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.mycompany.myapp.controller.*;
+import com.mycompany.myapp.dto.*;
+import com.mycompany.myapp.service.*;
+
+@Controller
+public class PhotoController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PhotoController.class);
+	
+	@Autowired
+	private PhotoService photoService;
+	
+	@RequestMapping("/team/photo/list")
+	public void DataList(int tid, HttpServletResponse response) {
+		List<News> photoList = photoService.getPhotoList(tid);
+		JSONObject root = new JSONObject();
+		if((photoList==null)|(photoList.size()==0)) {
+			root.put("getPhotoListResult", "fail");
+		}else {
+			root.put("getPhotoListResult", "success");
+			JSONArray list = new JSONArray();
+			for(News news:photoList) {
+				JSONObject photoJson = new JSONObject();
+				photoJson.put("nid", news.getNid());
+				photoJson.put("mid", news.getMid());
+				photoJson.put("mprofile", news.getMprofile() != null?news.getMprofile():"");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				photoJson.put("ndate", sdf.format(news.getNdate()));
+				photoJson.put("ncontent", news.getNcontent());
+				photoJson.put("nphotoname", news.getNphotoname()!=null?news.getNphotoname():"");
+				photoJson.put("ndataname", news.getNdataname() != null?news.getNdataname():"");
+				photoJson.put("nisnotice", news.getNisnotice());
+				photoJson.put("tid", news.getTid());
+				list.put(photoJson);
+			}
+			root.put("photoList", list);			
+		}
+		
+		// 출력 스트림 얻기
+		OutputStream os;
+		try {
+			os = response.getOutputStream();
+			String str = root.toString();
+			os.write(str.getBytes());
+			
+			os.flush();
+
+			os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	
+	}
+	
+	@RequestMapping("/team/photo/download")
+	public void photoDownload(String photoName, HttpServletRequest request, HttpServletResponse response) {
+		logger.info(photoName);
+		ServletContext application = request.getServletContext();
+		String realPath = application.getRealPath("/WEB-INF/upload/photo/" + photoName);
+		logger.info(realPath);
+        File downloadFile = new File(realPath);
+        
+        FileInputStream inputStream;
+       
+		try {
+			
+			inputStream = new FileInputStream(downloadFile);
+			
+			// get MIME type of the file
+	        ServletContext context = request.getSession().getServletContext();
+	        
+	        String mimeType = context.getMimeType(realPath);
+
+	        if (mimeType == null) {
+	            // set to binary type if MIME mapping not found
+	            mimeType = "application/octet-stream";
+	        }
+	        logger.info(Integer.toString((int)downloadFile.length()));
+	        // check the mime type
+	        
+	        // set content attributes for the response
+	        response.setContentType(mimeType);
+	        response.setContentLength((int) downloadFile.length());
+	        	
+	        
+	        // set headers for the response
+	        String headerKey = "Content-Disposition";
+	        String headerValue = String.format("attachment; filename=\"%s\"",
+	                downloadFile.getName());
+
+	        response.setHeader(headerKey, headerValue);
+	        // get output stream of the response
+	        OutputStream outStream = response.getOutputStream();
+	        byte[] buffer = new byte[1024];
+	        int bytesRead = -1;
+	        // write bytes read from the input stream into the output stream
+	        while ((bytesRead = inputStream.read(buffer)) != -1) {
+	            outStream.write(buffer, 0, bytesRead);
+	        }
+	        outStream.flush();
+	        inputStream.close();
+	        outStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		}
+
+	}
+	
+	
+}

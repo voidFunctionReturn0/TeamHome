@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!--DataSource(커넥션풀 설정) 웹애틀리케이션이 가지고 있는 경우-->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="oracle.jdbc.OracleDriver"></property>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@106.253.56.123:1521:orcl"></property>
+		<property name="user" value="kosa2finalteam1"/>
+		<property name="password" value="kosa2finalteam1"/>
+		<property name="maxPoolSize" value="100"/>
+		<property name="initialPoolSize" value="3"/>
+		<property name="minPoolSize" value="10"/>
+		<property name="maxIdleTime" value="3600"/>
+		<property name="checkoutTimeout" value="3000"/>
+	</bean>
+	<!-- DataSource(커넥션풀 설정): WAS가 가지고 있는 경우-->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:/comp/env/jdbc/projectoracle"/>
+	</bean> -->
+	<!-- <jee:jndi-lookup id="dataSource" jndi-name="jdbc/projectoracle"/> -->
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="/WEB-INF/mybatis/*.xml"/>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	<!--트랜잭션 설정-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+</beans>

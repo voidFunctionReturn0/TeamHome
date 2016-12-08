@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="200dp"
+    android:layout_height="130dp">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="내용"
+            android:id="@+id/photoContentTextView"
+            android:gravity="center_vertical"
+            android:textStyle="italic"
+            android:textColor="#000000"
+            android:layout_weight="5" />
+
+        <!--<Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnDownPhoto"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@android:drawable/ic_menu_save"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1" />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="2dp"
+            android:id="@+id/photoMemberImageView" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:text="대끼"
+            android:id="@+id/photoNameTextView"
+            android:textSize="13dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="날짜"
+            android:id="@+id/photoDateTextView"
+            android:textSize="13dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginLeft="0dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/photoImageView" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,464 @@
+package com.example.myapplication.join;
+
+
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.dto.Member;
+import com.example.myapplication.home.CircleBitmap;
+import com.example.myapplication.network.Network4;
+
+import java.io.IOException;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class JoinFragment extends Fragment {
+
+    private ImageButton btnProfile;
+    private Button btnJoin;
+    private Button btnDupCheck;
+    private EditText txtPassword1;
+    private EditText txtPassword2;
+    private EditText txtId;
+    private EditText txtYear;
+    private EditText txtMonth;
+    private EditText txtDay;
+    private ImageView passCheckImage;
+    private TextView txtDupCheck;
+    int joinFragmentId;
+
+
+    public static boolean dupcheck = false;
+    private boolean pwdcheck = false;
+    private boolean yearcheck = false;
+    private boolean monthcheck = false;
+    private boolean daycheck = false;
+
+    public JoinFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        joinFragmentId = this.getId();
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_join, container, false);
+
+        btnProfile = (ImageButton)view.findViewById(R.id.navProfile);
+        btnJoin = (Button)view.findViewById(R.id.btnJoin2);
+        btnDupCheck = (Button)view.findViewById(R.id.btnDupCheck);
+        txtYear = (EditText)view.findViewById(R.id.txtYear);
+        txtPassword1 = (EditText)view.findViewById(R.id.txtPassword1);
+        txtPassword2 = (EditText)view.findViewById(R.id.txtPassword2);
+
+        txtMonth = (EditText)view.findViewById(R.id.txtMonth);
+        txtDay = (EditText)view.findViewById(R.id.txtDay);
+        txtId = (EditText)view.findViewById(R.id.txtId);
+        passCheckImage = (ImageView)view.findViewById(R.id.passCheckImage);
+        txtDupCheck = (TextView)view.findViewById(R.id.txtDupCheck);
+
+
+        txtPassword2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    txtYear.requestFocus();
+                }
+                return true;
+            }
+        });
+
+        txtId.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    txtPassword1.requestFocus();
+                }
+                return true;
+            }
+        });
+
+        txtPassword1.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    txtPassword2.requestFocus();
+                }
+                return true;
+            }
+        });
+
+        txtYear.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String year = txtYear.getText().toString();
+
+                if (year.length() > 0){
+                    if (Integer.parseInt(year) > 1900 && Integer.parseInt(year) < 2017) {
+                        yearcheck = true;
+                    } else {
+                        yearcheck = false;
+                    }
+                }else{
+                    yearcheck = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtMonth.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String month = txtMonth.getText().toString();
+                if(month.length()>0) {
+                    if (Integer.parseInt(month) >= 1 && Integer.parseInt(month) <= 12) {
+                        monthcheck = true;
+                    } else {
+                        monthcheck = false;
+                    }
+                }else{
+                    monthcheck = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtDay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String day = txtDay.getText().toString();
+                if(day.length() > 0) {
+                    if (Integer.parseInt(day) >= 1 && Integer.parseInt(day) <= 31) {
+                        daycheck = true;
+                    } else {
+                        daycheck = false;
+                    }
+                }else{
+                    daycheck = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        txtPassword2.addTextChangedListener(new TextWatcher() {
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(txtPassword2.getText().toString().equals(txtPassword1.getText().toString())){
+                    passCheckImage.setBackgroundResource(R.drawable.repassword_ok_icon);
+                    pwdcheck = true;
+                }else{
+                    passCheckImage.setBackgroundResource(R.drawable.repassword_reject_icon);
+                    pwdcheck = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtPassword1.addTextChangedListener(new TextWatcher() {
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(txtPassword1.getText().toString().equals(txtPassword2.getText().toString())){
+                    passCheckImage.setBackgroundResource(R.drawable.repassword_ok_icon);
+                    pwdcheck = true;
+                }else{
+                    passCheckImage.setBackgroundResource(R.drawable.repassword_reject_icon);
+                    pwdcheck = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtId.addTextChangedListener(new TextWatcher() {
+             @Override
+             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+             }
+
+             @Override
+             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    txtDupCheck.setText("");
+                }
+                 btnDupCheck.setText("중복확인");
+             }
+
+             @Override
+             public void afterTextChanged(Editable s) {
+
+             }
+         });
+
+
+
+        txtId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtDupCheck.setText("");
+            }
+        });
+
+        btnDupCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(joinFragmentId);
+                Network4.join(txtId.getText().toString(),fragment);
+            }
+        });
+
+
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final CharSequence[] items = {"사진촬영", "앨범에서 선택"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("사진선택").setItems(items, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        switch(which){
+                            case 0:
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(intent,1);
+                                break;
+                            case 1:
+                                Intent intent2 = new Intent(Intent.ACTION_PICK);
+                                intent2.setType("image/*");
+                                startActivityForResult(intent2,2);
+                                break;
+                        }
+
+
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(dupcheck && pwdcheck && yearcheck && monthcheck && daycheck){
+
+                    String year = String.valueOf(txtYear.getText().toString());
+                    String month = String.valueOf(txtMonth.getText().toString());
+                    String day = String.valueOf(txtDay.getText().toString());
+
+                    String birthDay = year + month + day;
+                    java.sql.Date mbirth = new java.sql.Date(Integer.parseInt(year) - 1900, Integer.parseInt(month) - 1, Integer.parseInt(day));
+
+
+                    Member member = new Member();
+                    member.setMid(txtId.getText().toString());
+                    member.setMpwd(txtPassword2.getText().toString());
+                    member.setMbirth(mbirth);
+
+
+                    String fileName = txtId.getText().toString() + ".png";
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) btnProfile.getDrawable();
+                    Bitmap bitmap;
+                    if (btnProfile.getTag() == null) {
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.join_base_person);
+                        bitmap = getResizedBitmap(bitmap, 600);
+                        bitmap = getCircleBitmap(bitmap, 150);
+                        member.setMprofile("base_person.png");
+                    } else {
+                        bitmap = bitmapDrawable.getBitmap();
+                        bitmap = getResizedBitmap(bitmap, 600);
+                        member.setMprofile(fileName);
+                    }
+
+
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(joinFragmentId);
+
+                    Network4.join2(member,
+                            fragment,
+                            bitmap);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity());
+
+                    // Setting Dialog Title
+                    builder.setTitle("회원가입 성공");
+
+                    // Setting Dialog Message
+                    builder.setMessage("가입이 완료되었습니다.");
+
+                    // Setting Icon to Dialog
+                    //alertDialog.setIcon(R.drawable.tick);
+
+                    // Setting OK Button
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }else{
+                    Log.i("myinfo","회원가입 실패");
+                    Log.i("dupcheck",String.valueOf(dupcheck));
+                    Log.i("pwdheck",String.valueOf(pwdcheck));
+                    Log.i("yearcheck",String.valueOf(yearcheck));
+                    Log.i("monthcheck",String.valueOf(monthcheck));
+                    Log.i("daycheck",String.valueOf(daycheck));
+                }
+            }
+        });
+
+
+        return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode==1){
+                Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                CircleBitmap make = new CircleBitmap();
+                bitmap = make.createFramedPhoto(bitmap, 200);
+                String str = "camera";
+                btnProfile.setTag(str);
+                btnProfile.setImageBitmap(bitmap);
+                btnProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            } else if(requestCode == 2) {
+                try {
+                    Bitmap bitmap 	= MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                    CircleBitmap make = new CircleBitmap();
+                    bitmap = make.createFramedPhoto(bitmap, 200);
+                    String str = "gallary";
+                    btnProfile.setTag(str);
+                    btnProfile.setImageBitmap(bitmap);
+                    btnProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private Bitmap getCircleBitmap(Bitmap scaleBitmapImage, int radiusDp) {
+        int width = 0;
+        int height = 0;
+        int radius = (int)(radiusDp * getResources().getDisplayMetrics().density);
+        if(scaleBitmapImage.getWidth()<scaleBitmapImage.getHeight()) {
+            width = radius * 2;
+            height =radius * 2 * scaleBitmapImage.getHeight()/scaleBitmapImage.getWidth();
+        } else {
+            width =radius * 2 * scaleBitmapImage.getWidth()/scaleBitmapImage.getHeight();
+            height = radius * 2;
+        }
+        Bitmap targetBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(targetBitmap);
+        Path path = new Path();
+        path.addCircle(width/2, height/2, radius, Path.Direction.CCW);
+        canvas.clipPath(path);
+
+        canvas.drawBitmap(
+                scaleBitmapImage,
+                new Rect(0, 0, scaleBitmapImage.getWidth(), scaleBitmapImage.getHeight()),
+                new Rect(0, 0, width, height),
+                null
+        );
+
+        return targetBitmap;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+}
